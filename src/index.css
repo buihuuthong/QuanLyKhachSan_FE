@@ -34,9 +34,14 @@ code {
     max-width: 1280px;
   }
 }
+
+.ant-spin .ant-spin-dot-item {
+  background-color: #1da57a;
+}
+
 .large-btn{
   width: 100%;
-  background: #1da57a;
+  background-color: #1da57a;
 }
 
 .ant-btn{

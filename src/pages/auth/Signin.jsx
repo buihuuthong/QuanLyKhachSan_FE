@@ -1,15 +1,24 @@
 import React from "react";
 import "../../index.css";
 import { SigninForm } from "../../components/Form";
+import employeeApi from "../../services/employeeApi";
+import { useNavigate } from "react-router-dom";
 
 const Signin = () => {
+  const navigate = useNavigate()
 
   const onChecked = (e) => {
     console.log(`checked = ${e.target.checked}`);
   };
 
-  const onFinish = (value) => {
-    console.log(value);
+  const onFinish = async (value) => {
+    try{
+      // await employeeApi.signin(value.taikhoan, value.matkhau)
+      // navigate('/loading')
+      navigate('/home')
+    } catch (e){
+      console.log(e);
+    }
   }
 
   return (

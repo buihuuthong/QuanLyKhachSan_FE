@@ -10,11 +10,13 @@ import Customer from '../pages/customer/Customer'
 import Room from '../pages/room/Room';
 import RoomType from '../pages/room/RoomType';
 import RoomState from '../pages/room/RoomState';
+import { Loading } from '../components/Loading';
 
 const App = () => {
   return (
     <Router>
       <Routes>
+        <Route path="/loading" element={<Loading />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
         <Route path='/home' element={<Home />} />
