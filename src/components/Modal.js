@@ -1,6 +1,6 @@
 import { Modal } from "antd";
 import React from "react";
-import { AddForm } from "./Form";
+import { AddForm, EditForm } from "./Form";
 
 export const UserModal = ({
   isEditModal,
@@ -12,13 +12,13 @@ export const UserModal = ({
 }) => {
   return (
     <Modal
-      title="Sửa tài khoản"
+      title="Sửa thông tin"
       centered
       open={isEditModal}
       footer={null}
       onCancel={() => setIsEditModal(false)}
     >
-      <AddForm
+      <EditForm
         submit="Cập nhật"
         onFinish={onFinish}
         onFinishFailed={onFinishFaled}

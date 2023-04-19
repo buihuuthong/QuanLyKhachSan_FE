@@ -1,46 +1,46 @@
-import { Table, Tag } from "antd";
+import { Pagination, Table, Tag } from "antd";
 import dayjs from "dayjs";
 import React from "react";
 import { ActionButton, AddButton } from "./Button";
 
-export const DefautlTable = ({ dataSource, add , edit, remove}) => {
-
+export const DefautlTable = ({ dataSource, add, edit, remove, currentPage, totalPages, setCurrentPage }) => {
   const userColumn = [
     {
       title: "Họ tên",
-      dataIndex: "hoten",
-      key: "hoten",
+      dataIndex: "HoTen",
+      key: "HoTen",
     },
     {
       title: "Ngày sinh",
-      dataIndex: "ngaysinh",
-      key: "ngaysinh",
-      render: (_, record) => (
-        <p>{dayjs(record.ngaysinh, "DD-MM-YYYY").format("DD-MM-YYYY")}</p>
-      ),
+      dataIndex: "NgaySinh",
+      key: "NgaySinh",
+      render: (_, record) =>
+        record.NgaySinh == null ? null : (
+          <p>{dayjs(record.NgaySinh).format("DD-MM-YYYY")}</p>
+        ),
     },
     {
       title: "Địa chỉ",
-      dataIndex: "diachi",
-      key: "diachi",
+      dataIndex: "DiaChi",
+      key: "DiaChi",
     },
     {
       title: "Số điện thoại",
-      dataIndex: "sdt",
-      key: "sdt",
+      dataIndex: "SDT",
+      key: "SDT",
     },
     {
       title: "Email",
-      dataIndex: "email",
-      key: "email",
+      dataIndex: "Email",
+      key: "Email",
     },
     {
       title: "Chức vụ",
-      key: "machucvu",
-      dataIndex: "machucvu",
+      key: "ChucVu",
+      dataIndex: "ChucVu",
       render: (_, record) => (
-        <Tag color={"green"} key={record.chucvu}>
-          {record.chucvu?.toUpperCase()}
+        <Tag color={"green"} key={record.ChucVu?.TenChucVu}>
+          {record.ChucVu?.TenChucVu}
         </Tag>
       ),
     },
@@ -48,7 +48,7 @@ export const DefautlTable = ({ dataSource, add , edit, remove}) => {
       title: "Action",
       key: "action",
       render: (_, record) => (
-        <ActionButton edit={edit} remove={remove} />
+        <ActionButton edit={() => edit(record.MaNhanVien)} remove={remove} />
       ),
     },
   ];
@@ -57,6 +57,11 @@ export const DefautlTable = ({ dataSource, add , edit, remove}) => {
     <div className="bg-white p-4 rounded-md">
       <AddButton add={add} />
       <Table columns={userColumn} dataSource={dataSource} />
+      <Pagination
+        current={currentPage}
+        total={totalPages}
+        onChange={setCurrentPage}
+      />
     </div>
   );
 };

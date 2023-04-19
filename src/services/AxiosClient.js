@@ -5,21 +5,8 @@ const AxiosClient = axios.create({
   baseURL: API_ENDPOINT,
   responseType: "json",
   timeout: 50000,
-});
-
-AxiosClient.interceptors.request.use(
-  async (config) => {
-    const newConfig = { ...config };
-    const token = localStorage.getItem("auth-token");
-    if (token) {
-      newConfig.headers.Authorization = `Bearer ${token}`;
-    }
-    return newConfig;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
+  withCredentials: true, // set withCredentials to true to send cookies
+})
 
 AxiosClient.interceptors.response.use(
   function (response) {

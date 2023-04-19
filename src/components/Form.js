@@ -6,8 +6,11 @@ import {
   PhoneOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Button, Checkbox, DatePicker, Form, Input } from "antd";
+import { Button, Checkbox, DatePicker, Form, Input, Select } from "antd";
+import dayjs from "dayjs";
 import React from "react";
+
+const { Option } = Select;
 
 const FormItem = ({ name, required, message, children }) => {
   return (
@@ -25,9 +28,19 @@ const FormItem = ({ name, required, message, children }) => {
   );
 };
 
-export const AddForm = ({ nhanvien, onFinish, onFinishFailed, submit, formValues }) => {
+export const EditForm = ({ nhanvien, onFinish, onFinishFailed, submit, formValues }) => {
   const [form] = Form.useForm();
-  form.setFieldsValue(formValues);
+  
+  form.setFieldsValue({
+    TaiKhoan: formValues.TaiKhoan,
+    MatKhau: formValues.MatKhau,
+    HoTen: formValues.HoTen,
+    NgaySinh: dayjs(formValues.NgaySinh, "YYYY-MM-DD"),
+    Email: formValues.Email,
+    DiaChi: formValues.DiaChi,
+    SDT: formValues.SDT,
+    ChucVu: formValues.ChucVu?.TenChucVu
+  });
   
   return (
     <Form
@@ -44,32 +57,107 @@ export const AddForm = ({ nhanvien, onFinish, onFinishFailed, submit, formValues
       size="midle"
       form={form}
     >
-      <FormItem name="taikhoan" required={nhanvien ? true : false} message="tài khoản">
+      <FormItem name="TaiKhoan" required={nhanvien ? true : false} message="tài khoản">
         <Input placeholder="Tài khoản" prefix={<UserOutlined />} />
       </FormItem>
 
-      <FormItem name="matkhau" required={nhanvien ? true : false} message="mật khẩu">
+      <FormItem name="MatKhau" required={nhanvien ? true : false} message="mật khẩu">
         <Input.Password placeholder="Mật khẩu" prefix={<LockOutlined />} />
       </FormItem>
 
-      <FormItem name="hoten" required={nhanvien ? true : false} message="họ tên">
+      <FormItem name="HoTen" required={nhanvien ? true : false} message="họ tên">
         <Input placeholder="Họ tên" prefix={<FontSizeOutlined />} />
       </FormItem>
 
-      <FormItem name="ngaysinh" required={nhanvien ? true : false} message="ngày sinh">
+      <FormItem name="NgaySinh" required={nhanvien ? true : false} message="ngày sinh">
         <DatePicker placeholder="Ngày sinh" style={{ width: "100%" }} />
       </FormItem>
 
-      <FormItem name="email" required={nhanvien ? true : false} message="email">
+      <FormItem name="Email" required={nhanvien ? true : false} message="email">
         <Input placeholder="Email" prefix={<MailOutlined />} />
       </FormItem>
 
-      <FormItem name="diachi" required={nhanvien ? true : false} message="địa chỉ">
+      <FormItem name="DiaChi" required={nhanvien ? true : false} message="địa chỉ">
         <Input placeholder="Địa chỉ" prefix={<HomeOutlined />} />
       </FormItem>
 
-      <FormItem name="sdt" required={nhanvien ? true : false} message="số điện thoại">
+      <FormItem name="SDT" required={nhanvien ? true : false} message="số điện thoại">
         <Input placeholder="Số điện thoại" prefix={<PhoneOutlined />} />
+      </FormItem>
+
+      <FormItem name="ChucVu" required={nhanvien ? true : false} message="Chức Vụ">
+      <Select
+          placeholder="Chức vụ"
+          allowClear
+        >
+          <Option value="1">QUANLY</Option>
+          <Option value="2">TIEPTAN</Option>
+        </Select>
+      </FormItem>
+
+      {submit ? (
+        <Form.Item>
+          <Button className="large-btn" type="primary" htmlType="submit">
+            {submit}
+          </Button>
+        </Form.Item>
+      ) : null}
+    </Form>
+  );
+};
+
+export const AddForm = ({ nhanvien, onFinish, onFinishFailed, submit }) => {
+  
+  return (
+    <Form
+      name="add"
+      style={{
+        maxWidth: 600,
+      }}
+      initialValues={{
+        remember: true,
+      }}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+      autoComplete="off"
+      size="midle"
+    >
+      <FormItem name="TaiKhoan" required={nhanvien ? true : false} message="tài khoản">
+        <Input placeholder="Tài khoản" prefix={<UserOutlined />} />
+      </FormItem>
+
+      <FormItem name="MatKhau" required={nhanvien ? true : false} message="mật khẩu">
+        <Input.Password placeholder="Mật khẩu" prefix={<LockOutlined />} />
+      </FormItem>
+
+      <FormItem name="HoTen" required={nhanvien ? true : false} message="họ tên">
+        <Input placeholder="Họ tên" prefix={<FontSizeOutlined />} />
+      </FormItem>
+
+      <FormItem name="NgaySinh" required={nhanvien ? true : false} message="ngày sinh">
+        <DatePicker placeholder="Ngày sinh" style={{ width: "100%" }} />
+      </FormItem>
+
+      <FormItem name="Email" required={nhanvien ? true : false} message="email">
+        <Input placeholder="Email" prefix={<MailOutlined />} />
+      </FormItem>
+
+      <FormItem name="DiaChi" required={nhanvien ? true : false} message="địa chỉ">
+        <Input placeholder="Địa chỉ" prefix={<HomeOutlined />} />
+      </FormItem>
+
+      <FormItem name="SDT" required={nhanvien ? true : false} message="số điện thoại">
+        <Input placeholder="Số điện thoại" prefix={<PhoneOutlined />} />
+      </FormItem>
+      <FormItem name="ChucVu" required={nhanvien ? true : false} message="Chức Vụ">
+      <Select
+          placeholder="Chức vụ"
+          // onChange={onGenderChange}
+          allowClear
+        >
+          <Option value="1">QUANLY</Option>
+          <Option value="2">TIEPTAN</Option>
+        </Select>
       </FormItem>
 
       {submit ? (

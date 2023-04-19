@@ -1,74 +1,93 @@
-import dayjs from "dayjs";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AddUserModal, DeleteModal, UserModal } from "../../components/Modal";
 import { DefautlTable } from "../../components/Table";
 import Main from "../../layout/Main";
+import employeeApi from "../../services/employeeApi";
 
 const Employee = () => {
   const [isEditModal, setIsEditModal] = useState(false);
   const [isAddModal, setIsAddModal] = useState(false);
   const [isDeleteModal, setisDeleteModal] = useState(false);
-  const [formValues, setFormValues] = useState({
-    taikhoan: "1234",
-    matkhau: "1234",
-    hoten: "Bùi Hữu Thông",
-    ngaysinh: dayjs("28-06-2002", "DD-MM-YYYY"),
-    diachi: "New York No. 1 Lake Park",
-    sdt: "0123456789",
-    email: "thong@gmail.com",
-    chucvu: "quanly",
-  });
+  const [data, setData] = useState([]);
+  const [formValues, setFormValues] = useState();
 
-  const showAddModal = () => {
-    setIsAddModal(true);
+  // Lấy danh sách nhân viên
+  const getData = () => {
+    const result = employeeApi.getAll();
+    result
+      .then((data) => {
+        setData(data.list);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
-  const showEditModal = () => {
-    setIsEditModal(true);
+  // Load danh sách khi mở trang
+  useEffect(() => {
+    getData();
+  }, []);
+
+  // Gọi api thêm nhân viên
+  const addValue = async (value) => {
+    try {
+      await employeeApi.create(value);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const showDeleteModal = () => {
-    setisDeleteModal(true);
+  // Gọi api lấy thông tin nhân viên theo id
+  const showEditModal = async (id) => {
+    const result = employeeApi.getOne(id);
+    result
+      .then((data) => {
+        setFormValues(data);
+        setIsEditModal(true);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
-  const handleOk = (value) => {
+  // Gọi api sửa thông tin nhân viên
+  const editValue = (value) => {
     setIsEditModal(false);
     console.log(value);
   };
 
-  const data = [
-    {
-      key: "1",
-      taikhoan: "1234",
-      matkhau: "1234",
-      hoten: "Bùi Hữu Thông",
-      ngaysinh: "28-06-2002",
-      diachi: "New York No. 1 Lake Park",
-      sdt: "0123456789",
-      email: "thong@gmail.com",
-      chucvu: "quanly",
-    },
-  ];
+  // Xóa nhân viên
+  const deleteValue = () => {};
 
   return (
     <Main>
-      <DefautlTable add={showAddModal} edit={showEditModal} remove={showDeleteModal} dataSource={data} />
+      {/* Table hiển thị danh sách */}
+      <DefautlTable
+        add={() => setIsAddModal(true)}
+        edit={showEditModal}
+        remove={() => setisDeleteModal(true)}
+        dataSource={data}
+      />
+      {/* Modal hiển thị thông tin từng nhân viên */}
       <UserModal
         isEditModal={isEditModal}
         setIsEditModal={setIsEditModal}
-        onFinish={handleOk}
+        onFinish={editValue}
         formValues={formValues}
       />
+      {/* Modal thêm tài khoản */}
       <AddUserModal
         isAddModal={isAddModal}
         setIsAddModal={setIsAddModal}
-        onFinish={handleOk}
+        onFinish={addValue}
+        nhanvien
       />
+      {/* Modal xóa tài khoản */}
       <DeleteModal
         title="Xóa tài khoản"
         isDeleteModal={isDeleteModal}
         setisDeleteModal={setisDeleteModal}
-        handleOk={handleOk}
+        handleOk={deleteValue}
       />
     </Main>
   );

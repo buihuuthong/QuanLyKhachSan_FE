@@ -13,8 +13,9 @@ const Signin = () => {
 
   const onFinish = async (value) => {
     try{
-      // await employeeApi.signin(value.taikhoan, value.matkhau)
-      // navigate('/loading')
+      const res = await employeeApi.signin(value.taikhoan, value.matkhau)
+      localStorage.setItem("auth-token", res.accessToken)
+      navigate('/loading')
       navigate('/home')
     } catch (e){
       console.log(e);
