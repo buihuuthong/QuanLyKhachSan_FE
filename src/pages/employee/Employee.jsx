@@ -3,19 +3,32 @@ import { AddUserModal, DeleteModal, UserModal } from "../../components/Modal";
 import { DefautlTable } from "../../components/Table";
 import Main from "../../layout/Main";
 import employeeApi from "../../services/employeeApi";
+import { notification } from "antd";
 
 const Employee = () => {
+  // show/ hide modal
   const [isEditModal, setIsEditModal] = useState(false);
   const [isAddModal, setIsAddModal] = useState(false);
-  const [isDeleteModal, setisDeleteModal] = useState(false);
+  const [isDeleteModal, setIsDeleteModal] = useState(false);
+
+  //set data cho table và modal
   const [data, setData] = useState([]);
   const [formValues, setFormValues] = useState();
 
+  // lưu id user khi được gọi
+  const [userId, setUserId] = useState("");
+
+  // phân trang cho table
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+
   // Lấy danh sách nhân viên
   const getData = () => {
-    const result = employeeApi.getAll();
+    const result = employeeApi.getAll(currentPage);
     result
       .then((data) => {
+        setCurrentPage(data.currentPage);
+        setTotalItems(data.totalItems);
         setData(data.list);
       })
       .catch((error) => {
@@ -26,23 +39,30 @@ const Employee = () => {
   // Load danh sách khi mở trang
   useEffect(() => {
     getData();
-  }, []);
+  }, [currentPage]);
 
   // Gọi api thêm nhân viên
   const addValue = async (value) => {
     try {
       await employeeApi.create(value);
+      setIsAddModal(false);
+      getData();
+      notification.success({
+        message: "Thêm thành công",
+        description: "Thêm nhân viên mới thành công!",
+      });
     } catch (error) {
       console.log(error);
     }
   };
 
-  // Gọi api lấy thông tin nhân viên theo id
-  const showEditModal = async (id) => {
+  // Show modal và gọi api lấy thông tin nhân viên theo id
+  const showEditModal = (id) => {
     const result = employeeApi.getOne(id);
     result
       .then((data) => {
         setFormValues(data);
+        setUserId(id);
         setIsEditModal(true);
       })
       .catch((error) => {
@@ -51,13 +71,43 @@ const Employee = () => {
   };
 
   // Gọi api sửa thông tin nhân viên
-  const editValue = (value) => {
-    setIsEditModal(false);
-    console.log(value);
+  const editValue = async (value) => {
+    try {
+      await employeeApi.edit({
+        id: userId,
+        data: value,
+      });
+      setIsEditModal(false);
+      getData();
+      notification.success({
+        message: "Cập nhật thông tin thành công",
+        description: "Cập nhật thông tin nhân viên thành công!",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Show modal và lấy id nhân viên
+  const showDeleteModal = (id) => {
+    setUserId(id);
+    setIsDeleteModal(true);
   };
 
   // Xóa nhân viên
-  const deleteValue = () => {};
+  const deleteValue = async () => {
+    try {
+      await employeeApi.deleteOne(userId);
+      setIsDeleteModal(false);
+      getData();
+      notification.warning({
+        message: "Xóa tài khoản thành công",
+        description: "Xóa tài khoản nhân viên thành công!",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Main>
@@ -65,8 +115,11 @@ const Employee = () => {
       <DefautlTable
         add={() => setIsAddModal(true)}
         edit={showEditModal}
-        remove={() => setisDeleteModal(true)}
+        remove={showDeleteModal}
         dataSource={data}
+        currentPage={currentPage}
+        totalItems={totalItems}
+        onChange={(page) => setCurrentPage(page)}
       />
       {/* Modal hiển thị thông tin từng nhân viên */}
       <UserModal
@@ -86,7 +139,7 @@ const Employee = () => {
       <DeleteModal
         title="Xóa tài khoản"
         isDeleteModal={isDeleteModal}
-        setisDeleteModal={setisDeleteModal}
+        setIsDeleteModal={setIsDeleteModal}
         handleOk={deleteValue}
       />
     </Main>

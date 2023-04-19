@@ -1,9 +1,17 @@
-import { Pagination, Table, Tag } from "antd";
+import { Table, Tag } from "antd";
 import dayjs from "dayjs";
 import React from "react";
 import { ActionButton, AddButton } from "./Button";
 
-export const DefautlTable = ({ dataSource, add, edit, remove, currentPage, totalPages, setCurrentPage }) => {
+export const DefautlTable = ({
+  dataSource,
+  add,
+  edit,
+  remove,
+  currentPage,
+  totalItems,
+  onChange,
+}) => {
   const userColumn = [
     {
       title: "Họ tên",
@@ -48,7 +56,7 @@ export const DefautlTable = ({ dataSource, add, edit, remove, currentPage, total
       title: "Action",
       key: "action",
       render: (_, record) => (
-        <ActionButton edit={() => edit(record.MaNhanVien)} remove={remove} />
+        <ActionButton edit={() => edit(record.MaNhanVien)} remove={() => remove(record.MaNhanVien)} />
       ),
     },
   ];
@@ -56,11 +64,15 @@ export const DefautlTable = ({ dataSource, add, edit, remove, currentPage, total
   return (
     <div className="bg-white p-4 rounded-md">
       <AddButton add={add} />
-      <Table columns={userColumn} dataSource={dataSource} />
-      <Pagination
-        current={currentPage}
-        total={totalPages}
-        onChange={setCurrentPage}
+      <Table
+        columns={userColumn}
+        dataSource={dataSource}
+        pagination={{
+          defaultCurrent: currentPage,
+          total: totalItems,
+          pageSize: 10,
+          onChange: onChange,
+        }}
       />
     </div>
   );

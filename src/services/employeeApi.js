@@ -1,14 +1,14 @@
 import AxiosClient from "./AxiosClient";
 
 const employeeApi = {
-  signin: (taikhoan, matkhau) => {
+  signin: ({ taikhoan, matkhau }) => {
     return AxiosClient.post("nhanvien/signin", {
       TaiKhoan: taikhoan,
       MatKhau: matkhau,
     });
   },
-  getAll: () => {
-    return AxiosClient.get("nhan-vien/danh-sach");
+  getAll: (page) => {
+    return AxiosClient.get("nhan-vien/danh-sach?page=" + page);
   },
   getOne: (id) => {
     return AxiosClient.get("nhan-vien/tai-khoan?id=" + id);
@@ -25,8 +25,8 @@ const employeeApi = {
       MaChucVu: data.ChucVu,
     });
   },
-  edit: (data) => {
-    return AxiosClient.put("nhan-vien/sua",{
+  edit: ({ id, data }) => {
+    return AxiosClient.put("nhan-vien/sua?id=" + id, {
       TaiKhoan: data.TaiKhoan,
       MatKhau: data.MatKhau,
       HoTen: data.HoTen,
@@ -34,9 +34,17 @@ const employeeApi = {
       DiaChi: data.DiaChi,
       SDT: data.SDT,
       Email: data.Email,
-      MaChucVu: data.ChucVu,
-    })
-  }
+      MaChucVu:
+        data.ChucVu === "QUANLY"
+          ? 1
+          : data.ChucVu === "TIEPTAN"
+          ? 2
+          : data.ChucVu,
+    });
+  },
+  deleteOne: (id) => {
+    return AxiosClient.delete("nhan-vien/xoa?id=" + id);
+  },
 };
 
 export default employeeApi;

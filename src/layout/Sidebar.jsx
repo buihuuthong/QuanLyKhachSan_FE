@@ -45,7 +45,7 @@ const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
   const [selectedKey, setSelectedKey] = useState(location.pathname);
-  const [defaultOpenKey, setDefaultOpenKey] = useState();
+  const [openKey, setOpenKey] = useState();
 
   const onClick = (e) => {
     navigate(e.key);
@@ -53,8 +53,9 @@ const Sidebar = () => {
 
     // expand the parent submenu if the clicked item has children
     const parentKey = e.key.split("/").slice(0, -1).join("/");
+    setOpenKey(parentKey);
     console.log(parentKey);
-    setDefaultOpenKey(parentKey);
+    console.log(e.key);
   };
 
   return (
@@ -73,8 +74,8 @@ const Sidebar = () => {
 
       <Menu
         onClick={onClick}
-        selectedKeys={[selectedKey]}
-        defaultOpenKeys={[defaultOpenKey]}
+        defaultSelectedKeys={selectedKey}
+        defaultOpenKeys={openKey ? [openKey] : []} // pass an array with the openKey or an empty array
         mode="inline"
         items={items}
         className="w-[100%]"

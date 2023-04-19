@@ -58,7 +58,7 @@ export const DeleteModal = ({
   title,
   isDeleteModal,
   handleOk,
-  setisDeleteModal,
+  setIsDeleteModal,
 }) => {
   return (
     <Modal
@@ -67,7 +67,7 @@ export const DeleteModal = ({
       onOk={handleOk}
       okText="Xác nhận"
       cancelText="Hủy"
-      onCancel={() => setisDeleteModal(false)}
+      onCancel={() => setIsDeleteModal(false)}
     >
       <span className="flex items-center"><span> Bạn muốn xóa tài khoản này?</span></span>
     </Modal>
