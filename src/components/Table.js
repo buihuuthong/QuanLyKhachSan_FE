@@ -77,3 +77,68 @@ export const DefautlTable = ({
     </div>
   );
 };
+export const CustomerTable = ({
+  dataSource,
+  add,
+  edit,
+  remove,
+  currentPage,
+  totalItems,
+  onChange,
+}) => {
+  const CustomerColumn = [
+    {
+      title: "Họ tên",
+      dataIndex: "HoTen",
+      key: "HoTen",
+    },
+    {
+      title: "Ngày sinh",
+      dataIndex: "NgaySinh",
+      key: "NgaySinh",
+      render: (_, record) =>
+        record.NgaySinh == null ? null : (
+          <p>{dayjs(record.NgaySinh).format("DD-MM-YYYY")}</p>
+        ),
+    },
+    {
+      title: "Địa chỉ",
+      dataIndex: "DiaChi",
+      key: "DiaChi",
+    },
+    {
+      title: "Số điện thoại",
+      dataIndex: "SDT",
+      key: "SDT",
+    },
+    {
+      title: "Email",
+      dataIndex: "Email",
+      key: "Email",
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => (
+        <ActionButton edit={() => edit(record.MaKhachHang)} remove={() => remove(record.MaKhachHang)} />
+      ),
+    },
+  ];
+
+  return (
+    <div className="bg-white p-4 rounded-md">
+      <AddButton add={add} />
+      <Table
+        columns={CustomerColumn}
+        dataSource={dataSource}
+        pagination={{
+          defaultCurrent: currentPage,
+          total: totalItems,
+          pageSize: 10,
+          onChange: onChange,
+        }}
+      />
+    </div>
+  );
+};
+
