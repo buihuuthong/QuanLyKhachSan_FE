@@ -6,7 +6,7 @@ const AxiosClient = axios.create({
   responseType: "json",
   timeout: 50000,
   withCredentials: true, // set withCredentials to true to send cookies
-})
+});
 
 AxiosClient.interceptors.response.use(
   function (response) {

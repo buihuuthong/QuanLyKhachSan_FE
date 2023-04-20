@@ -1,10 +1,10 @@
 import AxiosClient from "./AxiosClient";
 
 const employeeApi = {
-  signin: ({ taikhoan, matkhau }) => {
+  signin: (data) => {
     return AxiosClient.post("nhanvien/signin", {
-      TaiKhoan: taikhoan,
-      MatKhau: matkhau,
+      TaiKhoan: data.taikhoan,
+      MatKhau: data.matkhau,
     });
   },
   getAll: (page) => {

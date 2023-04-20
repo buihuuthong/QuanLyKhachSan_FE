@@ -12,16 +12,9 @@ const roleSlice = createSlice({
       state.roleList = payload;
     },
   },
-  extraReducers: (builder) => {
-    // Add reducers for additional action types here, and handle loading state as needed
-    builder.addCase(getUserInfo.fulfilled, (state, { payload }) => {
-      // Add user to the state array
-      state.roleList = payload;
-    });
-  },
 });
 
-export const roleListSelector = (state) => state.user.roleList;
+export const roleListSelector = (state) => state.role.roleList;
 
 export const { setRoleList } = roleSlice.actions;
 

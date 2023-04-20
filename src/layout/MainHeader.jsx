@@ -1,8 +1,12 @@
 import { Button, Dropdown, Menu } from "antd";
 import { Header } from "antd/es/layout/layout";
 import React from "react";
+import { userInfoSelector } from "../redux/userSlice";
+import { useSelector } from "react-redux";
 
 const MainHeader = () => {
+  const user = useSelector(userInfoSelector);
+
   return (
     <Header className="bg-white h-20 flex flex-row justify-between items-center">
       <div className="" />
@@ -24,7 +28,7 @@ const MainHeader = () => {
         }
       >
         <Button className="text-white">
-          <span>Username</span>
+          <span>{user.hoten}</span>
         </Button>
       </Dropdown>
     </Header>
