@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage';
 import { combineReducers } from 'redux';
 import hardSet from 'redux-persist/lib/stateReconciler/hardSet';
 import roleSlice from './roleSlice';
+import userSlice from './userSlice';
 
 const persistConfig = {
   key: 'rootReducerConfig',
@@ -14,6 +15,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
     role: roleSlice,
+    user: userSlice
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -31,3 +33,5 @@ export const store = configureStore({
 });
 
 export const persistor = persistStore(store);
+
+export default store;

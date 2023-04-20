@@ -40,12 +40,15 @@ const items = [
   ]),
 ];
 
+const rootSubmenuKeys = ["/home", "/employee", "/customer", "/room"];
+
 const Sidebar = () => {
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
   const [selectedKey, setSelectedKey] = useState(location.pathname);
   const [openKey, setOpenKey] = useState();
+  const [openKeys, setOpenKeys] = useState(["/home"]);
 
   const onClick = (e) => {
     navigate(e.key);
@@ -54,8 +57,15 @@ const Sidebar = () => {
     // expand the parent submenu if the clicked item has children
     const parentKey = e.key.split("/").slice(0, -1).join("/");
     setOpenKey(parentKey);
-    console.log(parentKey);
-    console.log(e.key);
+  };
+
+  const onOpenChange = (keys) => {
+    const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
+    if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
+      setOpenKeys(keys);
+    } else {
+      setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
+    }
   };
 
   return (
@@ -64,18 +74,21 @@ const Sidebar = () => {
       collapsed={collapsed}
       onCollapse={(value) => setCollapsed(value)}
       style={{
-        backgroundColor: 'white'
+        backgroundColor: "white",
       }}
     >
       {/* Sidebar header */}
       <div className="flex items-center justify-center h-20 border-b border-gray-200">
-        <h1 className="text-2xl font-bold text-emerald-500">HT TEAM</h1>
+        <h1 className="text-2xl font-bold text-emerald-500 text-center">
+          HT TEAM
+        </h1>
       </div>
 
       <Menu
         onClick={onClick}
-        defaultSelectedKeys={selectedKey}
-        defaultOpenKeys={openKey ? [openKey] : []} // pass an array with the openKey or an empty array
+        selectedKeys={selectedKey}
+        openKeys={openKeys}
+        onOpenChange={onOpenChange}
         mode="inline"
         items={items}
         className="w-[100%]"
