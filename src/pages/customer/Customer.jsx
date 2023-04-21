@@ -15,7 +15,7 @@ const Customer = () => {
   const [data, setData] = useState([]);
   const [formValues, setFormValues] = useState();
 
-  // lưu id user khi được gọi
+  // lưu id user khi được gọii
   const [userId, setUserId] = useState("");
 
   // phân trang cho table
@@ -56,7 +56,7 @@ const Customer = () => {
     }
   };
 
-  // Show modal và gọi api lấy thông tin khách hàng theo id
+  // Show modal và gọi api lấy thông tin khách hàngg theo id
   const showEditModal = (id) => {
     const result = customerApi.getOne(id);
     result
@@ -71,6 +71,7 @@ const Customer = () => {
   };
 
   // Gọi api sửa thông tin khách hàng
+  
   const editValue = async (value) => {
     try {
       await customerApi.edit({
