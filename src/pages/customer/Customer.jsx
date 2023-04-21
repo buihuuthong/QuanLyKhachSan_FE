@@ -1,9 +1,13 @@
+import { notification } from "antd";
 import React, { useEffect, useState } from "react";
-import { DeleteModal, AddCustomerModal, CustomerModal } from "../../components/Modal";
-import { CustomerTable } from "../../components/Table";
+import {
+  AddCustomerModal,
+  CustomerModal,
+  DeleteModal,
+} from "../../components/Modal";
+import { DefautlTable } from "../../components/Table";
 import Main from "../../layout/Main";
 import customerApi from "../../services/customerApi";
-import { notification } from "antd";
 
 const Customer = () => {
   // show/ hide modal
@@ -32,7 +36,10 @@ const Customer = () => {
         setData(data.list);
       })
       .catch((error) => {
-        console.log(error);
+        notification.error({
+          message: "Lỗi khi lấy danh sách",
+          description: error.response?.data?.message,
+        });
       });
   };
 
@@ -52,7 +59,11 @@ const Customer = () => {
         description: "Thêm khách hàng mới thành công!",
       });
     } catch (error) {
-      console.log(error);
+      setIsAddModal(false);
+      notification.error({
+        message: "Lỗi khi thêm khách hàng",
+        description: error.response?.data?.message,
+      });
     }
   };
 
@@ -66,12 +77,15 @@ const Customer = () => {
         setIsEditModal(true);
       })
       .catch((error) => {
-        console.log(error);
+        notification.error({
+          message: "Lỗi khi lấy thông tin khách hàng",
+          description: error.response?.data?.message,
+        });
       });
   };
 
   // Gọi api sửa thông tin khách hàng
-  
+
   const editValue = async (value) => {
     try {
       await customerApi.edit({
@@ -85,7 +99,11 @@ const Customer = () => {
         description: "Cập nhật thông tin khách hàng thành công!",
       });
     } catch (error) {
-      console.log(error);
+      setIsAddModal(false);
+      notification.error({
+        message: "Lỗi khi cập nhật thông tin",
+        description: error.response?.data?.message,
+      });
     }
   };
 
@@ -106,14 +124,19 @@ const Customer = () => {
         description: "Xóa tài khoản khách hàng thành công!",
       });
     } catch (error) {
-      console.log(error);
+      setIsDeleteModal(false);
+      notification.error({
+        message: "Lỗi khi xóa tài khoản",
+        description:
+          "Khách hàng đang thực hiện hợp đồng, vui lòng hủy hoặc thay đổi khách hàng ra khỏi hợp đồng trước đó!!",
+      });
     }
   };
 
   return (
     <Main>
       {/* Table hiển thị danh sách */}
-      <CustomerTable
+      <DefautlTable
         add={() => setIsAddModal(true)}
         edit={showEditModal}
         remove={showDeleteModal}
@@ -121,6 +144,7 @@ const Customer = () => {
         currentPage={currentPage}
         totalItems={totalItems}
         onChange={(page) => setCurrentPage(page)}
+        khachhang
       />
       {/* Modal hiển thị thông tin từng nhân viên */}
       <CustomerModal

@@ -11,6 +11,7 @@ export const DefautlTable = ({
   currentPage,
   totalItems,
   onChange,
+  khachhang,
 }) => {
   const userColumn = [
     {
@@ -46,17 +47,23 @@ export const DefautlTable = ({
       title: "Chức vụ",
       key: "ChucVu",
       dataIndex: "ChucVu",
-      render: (_, record) => (
-        <Tag color={"green"} key={record.ChucVu?.TenChucVu}>
-          {record.ChucVu?.TenChucVu}
-        </Tag>
-      ),
+      render: (_, record) =>
+        khachhang ? null : (
+          <Tag color={"green"} key={record.ChucVu?.TenChucVu}>
+            {record.ChucVu?.TenChucVu}
+          </Tag>
+        ),
     },
     {
       title: "Action",
       key: "action",
       render: (_, record) => (
-        <ActionButton edit={() => edit(record.MaNhanVien)} remove={() => remove(record.MaNhanVien)} />
+        <ActionButton
+          edit={() => edit(khachhang ? record.MaKhachHang : record.MaNhanVien)}
+          remove={() =>
+            remove(khachhang ? record.MaKhachHang : record.MaNhanVien)
+          }
+        />
       ),
     },
   ];
@@ -77,68 +84,3 @@ export const DefautlTable = ({
     </div>
   );
 };
-export const CustomerTable = ({
-  dataSource,
-  add,
-  edit,
-  remove,
-  currentPage,
-  totalItems,
-  onChange,
-}) => {
-  const CustomerColumn = [
-    {
-      title: "Họ tên",
-      dataIndex: "HoTen",
-      key: "HoTen",
-    },
-    {
-      title: "Ngày sinh",
-      dataIndex: "NgaySinh",
-      key: "NgaySinh",
-      render: (_, record) =>
-        record.NgaySinh == null ? null : (
-          <p>{dayjs(record.NgaySinh).format("DD-MM-YYYY")}</p>
-        ),
-    },
-    {
-      title: "Địa chỉ",
-      dataIndex: "DiaChi",
-      key: "DiaChi",
-    },
-    {
-      title: "Số điện thoại",
-      dataIndex: "SDT",
-      key: "SDT",
-    },
-    {
-      title: "Email",
-      dataIndex: "Email",
-      key: "Email",
-    },
-    {
-      title: "Action",
-      key: "action",
-      render: (_, record) => (
-        <ActionButton edit={() => edit(record.MaKhachHang)} remove={() => remove(record.MaKhachHang)} />
-      ),
-    },
-  ];
-
-  return (
-    <div className="bg-white p-4 rounded-md">
-      <AddButton add={add} />
-      <Table
-        columns={CustomerColumn}
-        dataSource={dataSource}
-        pagination={{
-          defaultCurrent: currentPage,
-          total: totalItems,
-          pageSize: 10,
-          onChange: onChange,
-        }}
-      />
-    </div>
-  );
-};
-
