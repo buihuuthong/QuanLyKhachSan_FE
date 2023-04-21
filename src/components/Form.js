@@ -235,7 +235,127 @@ export const AddForm = ({
     </Form>
   );
 };
+///form khachHang
+export const EditFormCustomer = ({ khachhang, onFinish, onFinishFailed, submit, formValues }) => {
+  const [form] = Form.useForm();
+  
+  form.setFieldsValue({
+    TaiKhoan: formValues.TaiKhoan,
+    MatKhau: formValues.MatKhau,
+    HoTen: formValues.HoTen,
+    NgaySinh: dayjs(formValues.NgaySinh, "YYYY-MM-DD"),
+    Email: formValues.Email,
+    DiaChi: formValues.DiaChi,
+    SDT: formValues.SDT,
+  });
+  
+  return (
+    <Form
+      name="add"
+      style={{
+        maxWidth: 600,
+      }}
+      initialValues={{
+        remember: true,
+      }}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+      autoComplete="off"
+      size="midle"
+      form={form}
+    >
+      <FormItem name="TaiKhoan" required={khachhang ? true : false} message="tài khoản">
+        <Input placeholder="Tài khoản" prefix={<UserOutlined />} />
+      </FormItem>
 
+      <FormItem name="MatKhau" required={khachhang ? true : false} message="mật khẩu">
+        <Input.Password placeholder="Mật khẩu" prefix={<LockOutlined />} />
+      </FormItem>
+
+      <FormItem name="HoTen" required={khachhang ? true : false} message="họ tên">
+        <Input placeholder="Họ tên" prefix={<FontSizeOutlined />} />
+      </FormItem>
+
+      <FormItem name="NgaySinh" required={khachhang ? true : false} message="ngày sinh">
+        <DatePicker placeholder="Ngày sinh" style={{ width: "100%" }} />
+      </FormItem>
+
+      <FormItem name="Email" required={khachhang ? true : false} message="email">
+        <Input placeholder="Email" prefix={<MailOutlined />} />
+      </FormItem>
+
+      <FormItem name="DiaChi" required={khachhang ? true : false} message="địa chỉ">
+        <Input placeholder="Địa chỉ" prefix={<HomeOutlined />} />
+      </FormItem>
+
+      <FormItem name="SDT" required={khachhang ? true : false} message="số điện thoại">
+        <Input placeholder="Số điện thoại" prefix={<PhoneOutlined />} />
+      </FormItem>
+
+      {submit ? (
+        <Form.Item>
+          <Button className="large-btn" type="primary" htmlType="submit">
+            {submit}
+          </Button>
+        </Form.Item>
+      ) : null}
+    </Form>
+  );
+};
+
+export const AddFormCustomer = ({ khachhang, onFinish, onFinishFailed, submit }) => {
+  
+  return (
+    <Form
+      name="add"
+      style={{
+        maxWidth: 600,
+      }}
+      initialValues={{
+        remember: true,
+      }}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+      autoComplete="off"
+      size="midle"
+    >
+      <FormItem name="TaiKhoan" required={khachhang ? true : false} message="tài khoản">
+        <Input placeholder="Tài khoản" prefix={<UserOutlined />} />
+      </FormItem>
+
+      <FormItem name="MatKhau" required={khachhang ? true : false} message="mật khẩu">
+        <Input.Password placeholder="Mật khẩu" prefix={<LockOutlined />} />
+      </FormItem>
+
+      <FormItem name="HoTen" required={khachhang ? true : false} message="họ tên">
+        <Input placeholder="Họ tên" prefix={<FontSizeOutlined />} />
+      </FormItem>
+
+      <FormItem name="NgaySinh" required={khachhang ? true : false} message="ngày sinh">
+        <DatePicker placeholder="Ngày sinh" style={{ width: "100%" }} />
+      </FormItem>
+
+      <FormItem name="Email" required={khachhang ? true : false} message="email">
+        <Input placeholder="Email" prefix={<MailOutlined />} />
+      </FormItem>
+
+      <FormItem name="DiaChi" required={khachhang ? true : false} message="địa chỉ">
+        <Input placeholder="Địa chỉ" prefix={<HomeOutlined />} />
+      </FormItem>
+
+      <FormItem name="SDT" required={khachhang ? true : false} message="số điện thoại">
+        <Input placeholder="Số điện thoại" prefix={<PhoneOutlined />} />
+      </FormItem>
+      {submit ? (
+        <Form.Item>
+          <Button className="large-btn" type="primary" htmlType="submit">
+            {submit}
+          </Button>
+        </Form.Item>
+      ) : null}
+    </Form>
+  );
+};
 export const SigninForm = ({ onFinish, onFinishFailed, onChecked, submit }) => {
   return (
     <Form
