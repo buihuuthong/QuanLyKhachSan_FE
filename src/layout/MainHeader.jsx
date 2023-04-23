@@ -22,7 +22,7 @@ const MainHeader = () => {
               <a href="/home">Hồ sơ</a>
             </Menu.Item>
             <Menu.Item key="logout">
-              <a href="/signin">Đăng xuất</a>
+              <a href="/signin">Đăng xuấtt</a>
             </Menu.Item>
           </Menu>
         }

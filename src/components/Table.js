@@ -141,4 +141,152 @@ export const CustomerTable = ({
     </div>
   );
 };
+export const RoomTable = ({
+  dataSource,
+  add,
+  edit,
+  remove,
+  currentPage,
+  totalItems,
+  onChange,
+}) => {
+  const RoomColumn = [
+  
+    {
+      title: "Ngày Tạo",
+      dataIndex: "NgayTao",
+      key: "NgayTao",
+      render: (_, record) =>
+        record.NgayTao == null ? null : (
+          <p>{dayjs(record.NgaySinh).format("DD-MM-YYYY")}</p>
+        ),
+    },
+    {
+      title: "Ngày Sửa",
+      dataIndex: "NgaySua",
+      key: "NgaySua",
+      render: (_, record) =>
+        record.NgaySua == null ? null : (
+          <p>{dayjs(record.NgaySua).format("DD-MM-YYYY")}</p>
+        ),
+    },
+    {
+      title: "Ngày nhận",
+      dataIndex: "NgayNhan",
+      key: "NgayNhan",
+      render: (_, record) =>
+        record.NgayNhan == null ? null : (
+          <p>{dayjs(record.NgayNhan).format("DD-MM-YYYY")}</p>
+        ),
+    },
+    {
+      title: "Ngày Trả",
+      dataIndex: "NgayTra",
+      key: "NgayTra",
+      render: (_, record) =>
+        record.NgayTra == null ? null : (
+          <p>{dayjs(record.NgayTra).format("DD-MM-YYYY")}</p>
+        ),
+    },
+    {
+      title: "Số ngày thuê",
+      dataIndex: "SoNgayThue",
+      key: "SoNgayThue",
+    },
+    {
+      title: "Giá thuê",
+      dataIndex: "GiaThue",
+      key: "GiaThue",
+    },
+    {
+      title: "Phụ thu",
+      dataIndex: "PhuThu",
+      key: "PhuThu",
+    },
+    {
+      title: "Tổng tiền",
+      dataIndex: "TongTien",
+      key: "TongTien",
+    },
+    // {
+    //   title: "Ghi chú",
+    //   dataIndex: "GhiChu",
+    //   key: "GhiChu",
+    // },
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => (
+        <ActionButton edit={() => edit(record.MaDatPhong)} remove={() => remove(record.MaDatPhong)} />
+      ),
+    },
+  ];
+
+  return (
+    <div className="bg-white p-4 rounded-md">
+      <AddButton add={add} />
+      <Table
+        columns={RoomColumn}
+        dataSource={dataSource}
+        pagination={{
+          defaultCurrent: currentPage,
+          total: totalItems,
+          pageSize: 10,
+          onChange: onChange,
+        }}
+      />
+    </div>
+  );
+};
+export const RoomTypeTable = ({
+  dataSource,
+  add,
+  edit,
+  remove,
+  currentPage,
+  totalItems,
+  onChange,
+}) => {
+  const RoomTypeColumn = [
+    {
+      title: "Tên phòng",
+      dataIndex: "TenPhong",
+      key: "TenPhong",
+    },
+    {
+      title: "Mã loại phòng",
+      dataIndex: "MaLoaiPhong",
+      key: "MaLoaiPhong",
+    },
+    {
+      title: "Mã tình trạng",
+      dataIndex: "MaTinhTrang",
+      key: "MaTinhTrang",
+    },
+   
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => (
+        <ActionButton edit={() => edit(record.MaPhong)} remove={() => remove(record.MaPhong)} />
+      ),
+    },
+  ];
+
+  return (
+    <div className="bg-white p-4 rounded-md">
+      <AddButton add={add} />
+      <Table
+        columns={RoomTypeColumn}
+        dataSource={dataSource}
+        pagination={{
+          defaultCurrent: currentPage,
+          total: totalItems,
+          pageSize: 10,
+          onChange: onChange,
+        }}
+      />
+    </div>
+  );
+};
 

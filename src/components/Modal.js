@@ -1,6 +1,15 @@
 import { Modal } from "antd";
 import React from "react";
-import { AddForm, EditForm, AddFormCustomer, EditFormCustomer } from "./Form";
+import {
+   AddForm, 
+   EditForm, 
+   AddFormCustomer, 
+   EditFormCustomer, 
+   AddFormRoom, 
+   EditFormRoom,
+   AddFormRoomType,
+   EditFormRoomType
+   } from "./Form";
 
 export const UserModal = ({
   isEditModal,
@@ -106,7 +115,109 @@ export const AddCustomerModal = ({
   );
 };
 
+export const RoomModal = ({
+  isEditModal,
+  setIsEditModal,
+  onFinish,
+  onFinishFaled,
+  datphong,
+  formValues,
+}) => {
+  return (
+    <Modal
+      title="Sửa thông tin"
+      centered
+      open={isEditModal}
+      footer={null}
+      onCancel={() => setIsEditModal(false)}
+    >
+      <EditFormRoom
+        submit="Cập nhật"
+        onFinish={onFinish}
+        onFinishFailed={onFinishFaled}
+        datphong={datphong}
+        formValues={formValues}
+      />
+    </Modal>
+  );
+};
 
+export const AddRoomModal = ({
+  isAddModal,
+  setIsAddModal,
+  onFinish,
+  onFinishFaled,
+  datphong,
+}) => {
+  return (
+    <Modal
+      title="Đặt Thêm Phòng"
+      centered
+      open={isAddModal}
+      footer={null}
+      onCancel={() => setIsAddModal(false)}
+    >
+      <AddFormRoom
+        submit="Thêm"
+        onFinish={onFinish}
+        onFinishFailed={onFinishFaled}
+        datphong={datphong}
+      />
+    </Modal>
+  );
+};
+
+export const RoomTypeModal = ({
+  isEditModal,
+  setIsEditModal,
+  onFinish,
+  onFinishFaled,
+  phong,
+  formValues,
+}) => {
+  return (
+    <Modal
+      title="Sửa thông tin"
+      centered
+      open={isEditModal}
+      footer={null}
+      onCancel={() => setIsEditModal(false)}
+    >
+      <EditFormRoomType
+        submit="Cập nhật"
+        onFinish={onFinish}
+        onFinishFailed={onFinishFaled}
+        phong={phong}
+        formValues={formValues}
+      />
+    </Modal>
+  );
+};
+
+export const AddRoomTypeModal = ({
+  isAddModal,
+  setIsAddModal,
+  onFinish,
+  onFinishFaled,
+  phong,
+}) => {
+  return (
+    <Modal
+      title="Thêm phòng"
+      centered
+      open={isAddModal}
+      footer={null}
+      onCancel={() => setIsAddModal(false)}
+    >
+      <AddFormRoomType
+        submit="Thêm"
+        onFinish={onFinish}
+        onFinishFailed={onFinishFaled}
+        phong={phong}
+      />
+    </Modal>
+  );
+};
 export const DeleteModal = ({
   title,
   isDeleteModal,

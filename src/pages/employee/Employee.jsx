@@ -49,7 +49,7 @@ const Employee = () => {
       getData();
       notification.success({
         message: "Thêm thành công",
-        description: "Thêm nhân viên mới thành công!!",
+        description: "Thêm nhân viên mới thành công!",
       });
     } catch (error) {
       console.log(error);
