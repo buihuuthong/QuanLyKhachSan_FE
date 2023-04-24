@@ -32,7 +32,10 @@ const Employee = () => {
         setData(data.list);
       })
       .catch((error) => {
-        console.log(error);
+        notification.error({
+          message: "Lỗi khi lấy danh sách",
+          description: error.response?.data?.message,
+        });
       });
   };
 
@@ -52,7 +55,11 @@ const Employee = () => {
         description: "Thêm nhân viên mới thành công!",
       });
     } catch (error) {
-      console.log(error);
+      setIsAddModal(false);
+      notification.error({
+        message: "Lỗi khi thêm nhân viên",
+        description: error.response?.data?.message,
+      });
     }
   };
 
@@ -66,7 +73,10 @@ const Employee = () => {
         setIsEditModal(true);
       })
       .catch((error) => {
-        console.log(error);
+        notification.error({
+          message: "Lỗi khi lấy thông tin nhân viên",
+          description: error.response?.data?.message,
+        });
       });
   };
 
@@ -84,7 +94,11 @@ const Employee = () => {
         description: "Cập nhật thông tin nhân viên thành công!",
       });
     } catch (error) {
-      console.log(error);
+      setIsEditModal(false);
+      notification.error({
+        message: "Lỗi khi cập nhật thông tin",
+        description: error.response?.data?.message,
+      });
     }
   };
 
@@ -100,12 +114,17 @@ const Employee = () => {
       await employeeApi.deleteOne(userId);
       setIsDeleteModal(false);
       getData();
-      notification.warning({
+      notification.success({
         message: "Xóa tài khoản thành công",
         description: "Xóa tài khoản nhân viên thành công!",
       });
     } catch (error) {
-      console.log(error);
+      setIsDeleteModal(false);
+      notification.error({
+        message: "Lỗi khi xóa tài khoản",
+        description:
+          "Nhân viên đang thực hiện hợp đồng, vui lòng xóa hoặc thay đổi nhân viên ra khỏi hợp đồng trước đó!!",
+      });
     }
   };
 

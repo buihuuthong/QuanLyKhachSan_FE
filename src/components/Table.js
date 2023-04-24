@@ -11,6 +11,7 @@ export const DefautlTable = ({
   currentPage,
   totalItems,
   onChange,
+  khachhang,
 }) => {
   const userColumn = [
     {
@@ -46,17 +47,23 @@ export const DefautlTable = ({
       title: "Chức vụ",
       key: "ChucVu",
       dataIndex: "ChucVu",
-      render: (_, record) => (
-        <Tag color={"green"} key={record.ChucVu?.TenChucVu}>
-          {record.ChucVu?.TenChucVu}
-        </Tag>
-      ),
+      render: (_, record) =>
+        khachhang ? null : (
+          <Tag color={"green"} key={record.ChucVu?.TenChucVu}>
+            {record.ChucVu?.TenChucVu}
+          </Tag>
+        ),
     },
     {
       title: "Action",
       key: "action",
       render: (_, record) => (
-        <ActionButton edit={() => edit(record.MaNhanVien)} remove={() => remove(record.MaNhanVien)} />
+        <ActionButton
+          edit={() => edit(khachhang ? record.MaKhachHang : record.MaNhanVien)}
+          remove={() =>
+            remove(khachhang ? record.MaKhachHang : record.MaNhanVien)
+          }
+        />
       ),
     },
   ];
