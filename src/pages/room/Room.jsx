@@ -5,7 +5,7 @@ import Main from "../../layout/Main";
 import roomApi from "../../services/roomApi";
 import { notification } from "antd";
 
-const Room = () => {
+const RoomType = () => {
   // show/ hide modal
   const [isEditModal, setIsEditModal] = useState(false);
   const [isAddModal, setIsAddModal] = useState(false);
@@ -16,7 +16,7 @@ const Room = () => {
   const [formValues, setFormValues] = useState();
 
   // lưu id user khi được gọii
-  const [userId, setUserId] = useState("");
+  const [RoomId, setRoomId] = useState("");
 
   // phân trang cho table
   const [currentPage, setCurrentPage] = useState(1);
@@ -62,7 +62,7 @@ const Room = () => {
     result
       .then((data) => {
         setFormValues(data);
-        setUserId(id);
+        setRoomId(id);
         setIsEditModal(true);
       })
       .catch((error) => {
@@ -75,14 +75,14 @@ const Room = () => {
   const editValue = async (value) => {
     try {
       await roomApi.edit({
-        id: userId,
+        id: RoomId,
         data: value,
       });
       setIsEditModal(false);
       getData();
       notification.success({
         message: "Cập nhật thông tin thành công",
-        description: "Cập nhật thông tin khách hàng thành công!",
+        description: "Cập nhật thông tin phòng thành công!",
       });
     } catch (error) {
       console.log(error);
@@ -91,19 +91,19 @@ const Room = () => {
 
   // Show modal và lấy id phòng
   const showDeleteModal = (id) => {
-    setUserId(id);
+    setRoomId(id);
     setIsDeleteModal(true);
   };
 
-  // Xóa nhân viên
+  // Xóa phòng
   const deleteValue = async () => {
     try {
-      await roomApi.deleteOne(userId);
+      await roomApi.deleteOne(RoomId);
       setIsDeleteModal(false);
       getData();
       notification.warning({
         message: "Xóa phòng thành công",
-        description: "Xóa phòng khách hàng thành công!",
+        description: "Xóa phòng thành công!",
       });
     } catch (error) {
       console.log(error);
@@ -134,11 +134,11 @@ const Room = () => {
         isAddModal={isAddModal}
         setIsAddModal={setIsAddModal}
         onFinish={addValue}
-        datphong
+        phong
       />
-      {/* Modal xóa tài khoản */}
+      {/* Modal xóa phong */}
       <DeleteModal
-        title="Xóa tài khoản"
+        title="Xóa phòng"
         isDeleteModal={isDeleteModal}
         setIsDeleteModal={setIsDeleteModal}
         handleOk={deleteValue}
@@ -147,4 +147,4 @@ const Room = () => {
   );
 };
 
-export default Room;
+export default RoomType;

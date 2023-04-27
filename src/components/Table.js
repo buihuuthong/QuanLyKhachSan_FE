@@ -43,17 +43,18 @@ export const DefautlTable = ({
       dataIndex: "Email",
       key: "Email",
     },
-    {
-      title: "Chức vụ",
-      key: "ChucVu",
-      dataIndex: "ChucVu",
-      render: (_, record) =>
-        khachhang ? null : (
+    ...(khachhang ? [] : [
+      {
+        title: "Chức vụ",
+        key: "ChucVu",
+        dataIndex: "ChucVu",
+        render: (_, record) => (
           <Tag color={"green"} key={record.ChucVu?.TenChucVu}>
             {record.ChucVu?.TenChucVu}
           </Tag>
         ),
-    },
+      },
+    ]),
     {
       title: "Action",
       key: "action",
@@ -84,7 +85,7 @@ export const DefautlTable = ({
     </div>
   );
 };
-export const CustomerTable = ({
+export const BookRoomTable = ({
   dataSource,
   add,
   edit,
@@ -92,42 +93,60 @@ export const CustomerTable = ({
   currentPage,
   totalItems,
   onChange,
+  datphong
 }) => {
-  const CustomerColumn = [
+  const BookRoomColumn = [
+  
     {
-      title: "Họ tên",
-      dataIndex: "HoTen",
-      key: "HoTen",
-    },
-    {
-      title: "Ngày sinh",
-      dataIndex: "NgaySinh",
-      key: "NgaySinh",
+      title: "Tên Khách hàng",
+      dataIndex: "KhachHang",
+      key: "KhachHang",
       render: (_, record) =>
-        record.NgaySinh == null ? null : (
-          <p>{dayjs(record.NgaySinh).format("DD-MM-YYYY")}</p>
+       datphong ? null : (
+            <span key={record.KhachHang?.HoTen}>
+              {record.KhachHang?.HoTen}
+            </span>
+          ),
+    },
+    { 
+      title: "Ngày nhận",
+      dataIndex: "NgayNhan",
+      key: "NgayNhan",
+      render: (_, record) =>
+        record.NgayNhan == null ? null : (
+          <p>{dayjs(record.NgayNhan).format("DD-MM-YYYY")}</p>
         ),
     },
     {
-      title: "Địa chỉ",
-      dataIndex: "DiaChi",
-      key: "DiaChi",
+      title: "Ngày Trả",
+      dataIndex: "NgayTra",
+      key: "NgayTra",
+      render: (_, record) =>
+        record.NgayTra == null ? null : (
+          <p>{dayjs(record.NgayTra).format("DD-MM-YYYY")}</p>
+        ),
     },
     {
-      title: "Số điện thoại",
-      dataIndex: "SDT",
-      key: "SDT",
+      title: "Giá thuê",
+      dataIndex: "GiaThue",
+      key: "GiaThue",
     },
     {
-      title: "Email",
-      dataIndex: "Email",
-      key: "Email",
+      title: "Phụ thu",
+      dataIndex: "PhuThu",
+      key: "PhuThu",
     },
+    {
+      title: "Tổng tiền",
+      dataIndex: "TongTien",
+      key: "TongTien",
+    },
+  
     {
       title: "Action",
       key: "action",
       render: (_, record) => (
-        <ActionButton edit={() => edit(record.MaKhachHang)} remove={() => remove(record.MaKhachHang)} />
+        <ActionButton edit={() => edit(record.MaDatPhong)} remove={() => remove(record.MaDatPhong)} />
       ),
     },
   ];
@@ -136,7 +155,7 @@ export const CustomerTable = ({
     <div className="bg-white p-4 rounded-md">
       <AddButton add={add} />
       <Table
-        columns={CustomerColumn}
+        columns={BookRoomColumn}
         dataSource={dataSource}
         pagination={{
           defaultCurrent: currentPage,
@@ -156,122 +175,38 @@ export const RoomTable = ({
   currentPage,
   totalItems,
   onChange,
+  phong
 }) => {
   const RoomColumn = [
-  
-    {
-      title: "Ngày Tạo",
-      dataIndex: "NgayTao",
-      key: "NgayTao",
-      render: (_, record) =>
-        record.NgayTao == null ? null : (
-          <p>{dayjs(record.NgaySinh).format("DD-MM-YYYY")}</p>
-        ),
-    },
-    {
-      title: "Ngày Sửa",
-      dataIndex: "NgaySua",
-      key: "NgaySua",
-      render: (_, record) =>
-        record.NgaySua == null ? null : (
-          <p>{dayjs(record.NgaySua).format("DD-MM-YYYY")}</p>
-        ),
-    },
-    {
-      title: "Ngày nhận",
-      dataIndex: "NgayNhan",
-      key: "NgayNhan",
-      render: (_, record) =>
-        record.NgayNhan == null ? null : (
-          <p>{dayjs(record.NgayNhan).format("DD-MM-YYYY")}</p>
-        ),
-    },
-    {
-      title: "Ngày Trả",
-      dataIndex: "NgayTra",
-      key: "NgayTra",
-      render: (_, record) =>
-        record.NgayTra == null ? null : (
-          <p>{dayjs(record.NgayTra).format("DD-MM-YYYY")}</p>
-        ),
-    },
-    {
-      title: "Số ngày thuê",
-      dataIndex: "SoNgayThue",
-      key: "SoNgayThue",
-    },
-    {
-      title: "Giá thuê",
-      dataIndex: "GiaThue",
-      key: "GiaThue",
-    },
-    {
-      title: "Phụ thu",
-      dataIndex: "PhuThu",
-      key: "PhuThu",
-    },
-    {
-      title: "Tổng tiền",
-      dataIndex: "TongTien",
-      key: "TongTien",
-    },
-    // {
-    //   title: "Ghi chú",
-    //   dataIndex: "GhiChu",
-    //   key: "GhiChu",
-    // },
-    {
-      title: "Action",
-      key: "action",
-      render: (_, record) => (
-        <ActionButton edit={() => edit(record.MaDatPhong)} remove={() => remove(record.MaDatPhong)} />
-      ),
-    },
-  ];
-
-  return (
-    <div className="bg-white p-4 rounded-md">
-      <AddButton add={add} />
-      <Table
-        columns={RoomColumn}
-        dataSource={dataSource}
-        pagination={{
-          defaultCurrent: currentPage,
-          total: totalItems,
-          pageSize: 10,
-          onChange: onChange,
-        }}
-      />
-    </div>
-  );
-};
-export const RoomTypeTable = ({
-  dataSource,
-  add,
-  edit,
-  remove,
-  currentPage,
-  totalItems,
-  onChange,
-}) => {
-  const RoomTypeColumn = [
     {
       title: "Tên phòng",
       dataIndex: "TenPhong",
       key: "TenPhong",
     },
     {
-      title: "Mã loại phòng",
-      dataIndex: "MaLoaiPhong",
-      key: "MaLoaiPhong",
+      title: "Tên loại phòng",
+      dataIndex: "LoaiPhong",
+      key: "LoaiPhong",
+      render: (_, record) =>
+          phong ? null : (
+            <span key={record.LoaiPhong?.TenLoaiPhong}>
+              {record.LoaiPhong?.TenLoaiPhong}
+            </span>
+          ),
+
     },
     {
-      title: "Mã tình trạng",
-      dataIndex: "MaTinhTrang",
-      key: "MaTinhTrang",
+      title: "Tên tình trạng",
+      dataIndex: "TinhTrangPhong",
+      key: "TinhTrangPhong",
+      render: (_, record) =>
+          phong ? null : (
+            <span key={record.TinhTrangPhong?.TenTinhTrang}>
+              {record.TinhTrangPhong?.TenTinhTrang}
+            </span>
+          ),
     },
-   
-    {
+    { 
       title: "Action",
       key: "action",
       render: (_, record) => (
@@ -284,7 +219,7 @@ export const RoomTypeTable = ({
     <div className="bg-white p-4 rounded-md">
       <AddButton add={add} />
       <Table
-        columns={RoomTypeColumn}
+        columns={RoomColumn}
         dataSource={dataSource}
         pagination={{
           defaultCurrent: currentPage,

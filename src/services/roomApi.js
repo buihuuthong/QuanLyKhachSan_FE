@@ -1,48 +1,30 @@
 import AxiosClient from "./AxiosClient";
 
 const roomApi = {
+  
   getAll: (page) => {
-    return AxiosClient.get("dat-phong/danh-sach?page=" + page);
+    return AxiosClient.get("phong/danh-sach-phong?page=" + page);
   },
   getOne: (id) => {
-    return AxiosClient.get("dat-phong/don-dat?id=" + id);
+    return AxiosClient.get("phong/thong-tin?id=" + id);
   },
   create: (data) => {
-    return AxiosClient.post("dat-phong/tao-don", {
-      MaKhachHang: data.MaKhachHang,
-      MaPhong: data.MaPhong,
-      NgayTao: data.NgayTao,
-      NgaySua: data.NgaySua,
-      NgayNhan: data.NgayNhan,
-      NgayTra: data.NgayTra,
-      SoNgayThue: data.SoNgayThue,
-      GiaThue: data.GiaThue,
-      PhuThu: data.PhuThu,
-      TongTien: data.TongTien,
-      GhiChu: data.GhiChu,
-      MaNhanVien: data.MaNhanVien,
-      MaTrangThai: data.MaTrangThai,
+    return AxiosClient.post("phong/tao-phong", {
+        TenPhong: data.TenPhong,
+        MaLoaiPhong: data.MaLoaiPhong,
+        MaTinhTrang: data.MaTinhTrang,
+
     });
   },
   edit: ({ id, data }) => {
-    return AxiosClient.put("dat-phong/sua-don?id=" + id, {
-        MaKhachHang: data.MaKhachHang,
-        MaPhong: data.MaPhong,
-        NgayTao: data.NgayTao,
-        NgaySua: data.NgaySua,
-        NgayNhan: data.NgayNhan,
-        NgayTra: data.NgayTra,
-        SoNgayThue: data.SoNgayThue,
-        GiaThue: data.GiaThue,
-        PhuThu: data.PhuThu,
-        TongTien: data.TongTien,
-        GhiChu: data.GhiChu,
-        MaNhanVien: data.MaNhanVien,
-        MaTrangThai: data.MaTrangThai,
+    return AxiosClient.put("phong/sua-phong?id=" + id, {
+        TenPhong: data.TenPhong,
+        MaLoaiPhong: data.LoaiPhong,
+        MaTinhTrang: data.TinhTrangPhong,
     });
   },
   deleteOne: (id) => {
-    return AxiosClient.delete("dat-phong/xoa-don?id=" + id);
+    return AxiosClient.delete("phong/xoa-phong?id=" + id);
   },
 };
 

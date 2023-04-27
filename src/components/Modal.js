@@ -5,10 +5,10 @@ import {
    EditForm, 
    AddFormCustomer, 
    EditFormCustomer, 
-   AddFormRoom, 
-   EditFormRoom,
-   AddFormRoomType,
-   EditFormRoomType
+   AddFormBookRoom, 
+   EditFormBookRoom,
+   AddFormRoom,
+   EditFormRoom
    } from "./Form";
 
 export const UserModal = ({
@@ -115,7 +115,7 @@ export const AddCustomerModal = ({
   );
 };
 
-export const RoomModal = ({
+export const BookRoomModal = ({
   isEditModal,
   setIsEditModal,
   onFinish,
@@ -131,7 +131,7 @@ export const RoomModal = ({
       footer={null}
       onCancel={() => setIsEditModal(false)}
     >
-      <EditFormRoom
+      <EditFormBookRoom
         submit="Cập nhật"
         onFinish={onFinish}
         onFinishFailed={onFinishFaled}
@@ -142,7 +142,7 @@ export const RoomModal = ({
   );
 };
 
-export const AddRoomModal = ({
+export const AddBookRoomModal = ({
   isAddModal,
   setIsAddModal,
   onFinish,
@@ -157,7 +157,7 @@ export const AddRoomModal = ({
       footer={null}
       onCancel={() => setIsAddModal(false)}
     >
-      <AddFormRoom
+      <AddFormBookRoom
         submit="Thêm"
         onFinish={onFinish}
         onFinishFailed={onFinishFaled}
@@ -167,7 +167,7 @@ export const AddRoomModal = ({
   );
 };
 
-export const RoomTypeModal = ({
+export const RoomModal = ({
   isEditModal,
   setIsEditModal,
   onFinish,
@@ -183,7 +183,7 @@ export const RoomTypeModal = ({
       footer={null}
       onCancel={() => setIsEditModal(false)}
     >
-      <EditFormRoomType
+      <EditFormRoom
         submit="Cập nhật"
         onFinish={onFinish}
         onFinishFailed={onFinishFaled}
@@ -194,7 +194,7 @@ export const RoomTypeModal = ({
   );
 };
 
-export const AddRoomTypeModal = ({
+export const AddRoomModal = ({
   isAddModal,
   setIsAddModal,
   onFinish,
@@ -209,7 +209,7 @@ export const AddRoomTypeModal = ({
       footer={null}
       onCancel={() => setIsAddModal(false)}
     >
-      <AddFormRoomType
+      <AddFormRoom
         submit="Thêm"
         onFinish={onFinish}
         onFinishFailed={onFinishFaled}
