@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { AddUserModal, DeleteModal, UserModal } from "../../components/Modal";
-import { DefautlTable } from "../../components/Table";
+import { DeleteModal, AddBookRoomModal, BookRoomModal } from "../../components/Modal";
+import { BookRoomTable } from "../../components/Table";
 import Main from "../../layout/Main";
-import employeeApi from "../../services/employeeApi";
+import bookroomApi from "../../services/bookroomApi";
 import { notification } from "antd";
 
-const Employee = () => {
+const BookRoom = () => {
   // show/ hide modal
   const [isEditModal, setIsEditModal] = useState(false);
   const [isAddModal, setIsAddModal] = useState(false);
@@ -15,16 +15,16 @@ const Employee = () => {
   const [data, setData] = useState([]);
   const [formValues, setFormValues] = useState();
 
-  // lưu id user khi được gọi
-  const [userId, setUserId] = useState("");
+  // lưu id user khi được gọii
+  const [RoomId, setRoomId] = useState("");
 
   // phân trang cho table
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
 
-  // Lấy danh sách nhân viên
+  // Lấy danh sách dat phong
   const getData = () => {
-    const result = employeeApi.getAll(currentPage);
+    const result = bookroomApi.getAll(currentPage);
     result
       .then((data) => {
         setCurrentPage(data.currentPage);
@@ -32,10 +32,7 @@ const Employee = () => {
         setData(data.list);
       })
       .catch((error) => {
-        notification.error({
-          message: "Lỗi khi lấy danh sách",
-          description: error.response?.data?.message,
-        });
+        console.log(error);
       });
   };
 
@@ -44,94 +41,79 @@ const Employee = () => {
     getData();
   }, [currentPage]);
 
-  // Gọi api thêm nhân viên
+  // Gọi api thêm dat phong
   const addValue = async (value) => {
     try {
-      await employeeApi.create(value);
+      await bookroomApi.create(value);
       setIsAddModal(false);
       getData();
       notification.success({
         message: "Thêm thành công",
-        description: "Thêm nhân viên mới thành công!",
+        description: "Thêm phòng mới thành công!",
       });
     } catch (error) {
-      setIsAddModal(false);
-      notification.error({
-        message: "Lỗi khi thêm nhân viên",
-        description: error.response?.data?.message,
-      });
+      console.log(error);
     }
   };
 
-  // Show modal và gọi api lấy thông tin nhân viên theo id
+  // Show modal và gọi api lấy thông tin phòng theo id
   const showEditModal = (id) => {
-    const result = employeeApi.getOne(id);
+    const result = bookroomApi.getOne(id);
     result
       .then((data) => {
         setFormValues(data);
-        setUserId(id);
+        setRoomId(id);
         setIsEditModal(true);
       })
       .catch((error) => {
-        notification.error({
-          message: "Lỗi khi lấy thông tin nhân viên",
-          description: error.response?.data?.message,
-        });
+        console.log(error);
       });
   };
 
-  // Gọi api sửa thông tin nhân viên
+  // Gọi api sửa thông tin phòng
+  
   const editValue = async (value) => {
     try {
-      await employeeApi.edit({
-        id: userId,
+      await bookroomApi.edit({
+        id: RoomId,
         data: value,
       });
       setIsEditModal(false);
       getData();
       notification.success({
         message: "Cập nhật thông tin thành công",
-        description: "Cập nhật thông tin nhân viên thành công!",
+        description: "Cập nhật thông tin khách hàng thành công!",
       });
     } catch (error) {
-      setIsEditModal(false);
-      notification.error({
-        message: "Lỗi khi cập nhật thông tin",
-        description: error.response?.data?.message,
-      });
+      console.log(error);
     }
   };
 
-  // Show modal và lấy id nhân viên
+  // Show modal và lấy id phòng
   const showDeleteModal = (id) => {
-    setUserId(id);
+    setRoomId(id);
     setIsDeleteModal(true);
   };
 
-  // Xóa nhân viên
+  // Xóa phòng
   const deleteValue = async () => {
     try {
-      await employeeApi.deleteOne(userId);
+      await bookroomApi.deleteOne(RoomId);
       setIsDeleteModal(false);
       getData();
-      notification.success({
-        message: "Xóa tài khoản thành công",
-        description: "Xóa tài khoản nhân viên thành công!",
+      notification.warning({
+        message: "Xóa phòng thành công",
+        description: "Xóa phòng khách hàng thành công!",
       });
     } catch (error) {
-      setIsDeleteModal(false);
-      notification.error({
-        message: "Lỗi khi xóa tài khoản",
-        description:
-          "Nhân viên đang thực hiện hợp đồng, vui lòng xóa hoặc thay đổi nhân viên ra khỏi hợp đồng trước đó!!",
-      });
+      console.log(error);
     }
   };
 
   return (
     <Main>
-      {/* Table hiển thị danh sách */}
-      <DefautlTable
+      {/* Table hiển thị danh sách phòng*/}
+      <BookRoomTable
         add={() => setIsAddModal(true)}
         edit={showEditModal}
         remove={showDeleteModal}
@@ -140,23 +122,23 @@ const Employee = () => {
         totalItems={totalItems}
         onChange={(page) => setCurrentPage(page)}
       />
-      {/* Modal hiển thị thông tin từng nhân viên */}
-      <UserModal
+      {/* Modal hiển thị thông tin từng phòng */}
+      <BookRoomModal
         isEditModal={isEditModal}
         setIsEditModal={setIsEditModal}
         onFinish={editValue}
         formValues={formValues}
       />
       {/* Modal thêm tài khoản */}
-      <AddUserModal
+      <AddBookRoomModal
         isAddModal={isAddModal}
         setIsAddModal={setIsAddModal}
         onFinish={addValue}
-        nhanvien
+        datphong
       />
-      {/* Modal xóa tài khoản */}
+      {/* Modal xóa phong */}
       <DeleteModal
-        title="Xóa tài khoản"
+        title="Xóa phòng"
         isDeleteModal={isDeleteModal}
         setIsDeleteModal={setIsDeleteModal}
         handleOk={deleteValue}
@@ -165,4 +147,4 @@ const Employee = () => {
   );
 };
 
-export default Employee;
+export default BookRoom;

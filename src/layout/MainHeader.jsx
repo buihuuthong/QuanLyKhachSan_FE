@@ -19,10 +19,10 @@ const MainHeader = () => {
         overlay={
           <Menu>
             <Menu.Item key="profile">
-              <a href="/home">Hồ sơ</a>
+              <a href="/home"> Hồ sơ</a>
             </Menu.Item>
             <Menu.Item key="logout">
-              <a href="/signin">Đăng xuất</a>
+              <a href="/signin"> Đăng xuất</a>
             </Menu.Item>
           </Menu>
         }

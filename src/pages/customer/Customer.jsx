@@ -113,7 +113,7 @@ const Customer = () => {
     setIsDeleteModal(true);
   };
 
-  // Xóa nhân viên
+  // Xóa khach hang
   const deleteValue = async () => {
     try {
       await customerApi.deleteOne(userId);

@@ -38,9 +38,15 @@ const items = [
     getItem("Loại phòng", "/room/type"),
     getItem("Trạng thái phòng", "/room/state"),
   ]),
+  {
+    type: "divider",
+  },
+  getItem("Quản lý đặt phòng", "/book-room", <HomeOutlined />, [
+    getItem("Danh sách đặt phòng", "/book-room/list"),
+  ]),
 ];
 
-const rootSubmenuKeys = ["/home", "/employee", "/customer", "/room"];
+const rootSubmenuKeys = ["/home", "/employee", "/customer", "/room", "/book-room"];
 
 const Sidebar = () => {
   const navigate = useNavigate();
