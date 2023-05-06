@@ -6,6 +6,10 @@ import { SigninForm } from "../../components/Form";
 import "../../index.css";
 import { setUserInfo } from "../../redux/userSlice";
 import employeeApi from "../../services/employeeApi";
+import { getTrangThaiDatPhong } from "../../redux/trangThaiDatPhongSlice";
+import { getKhachHang } from "../../redux/khachHangSlice";
+import { getPhong } from "../../redux/phongSlice";
+import { getEmployee } from "../../redux/employeeSlice";
 
 const Signin = () => {
   const navigate = useNavigate();
@@ -20,6 +24,10 @@ const Signin = () => {
       const res = await employeeApi.signin(value);
       localStorage.setItem("auth-token", res.accessToken);
       dispatch(setUserInfo(res));
+      dispatch(getTrangThaiDatPhong());
+      dispatch(getKhachHang());
+      dispatch(getPhong());
+      dispatch(getEmployee())
       notification.success({
         message: "Đăng nhập thành công",
         description: "Đăng nhập tài khoản thành công!",

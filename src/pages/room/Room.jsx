@@ -71,7 +71,7 @@ const RoomType = () => {
   };
 
   // Gọi api sửa thông tin phòng
-  
+
   const editValue = async (value) => {
     try {
       await roomApi.edit({
@@ -111,7 +111,7 @@ const RoomType = () => {
   };
 
   return (
-    <Main>
+    <Main title="Quản lý phòng">
       {/* Table hiển thị danh sách phòng*/}
       <RoomTable
         add={() => setIsAddModal(true)}

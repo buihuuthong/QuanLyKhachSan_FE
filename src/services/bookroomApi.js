@@ -8,11 +8,10 @@ const bookroomApi = {
     return AxiosClient.get("dat-phong/don-dat?id=" + id);
   },
   create: (data) => {
+    console.log(data);
     return AxiosClient.post("dat-phong/tao-don", {
       MaKhachHang: data.KhachHang,
       MaPhong: data.MaPhong,
-      NgayTao: data.NgayTao,
-      NgaySua: data.NgaySua,
       NgayNhan: data.NgayNhan,
       NgayTra: data.NgayTra,
       SoNgayThue: data.SoNgayThue,
@@ -28,21 +27,19 @@ const bookroomApi = {
   },
   edit: ({ id, data }) => {
     return AxiosClient.put("dat-phong/sua-don?id=" + id, {
-        MaKhachHang: data.KhachHang,
-        MaPhong: data.MaPhong,
-        NgayTao: data.NgayTao,
-        NgaySua: data.NgaySua,
-        NgayNhan: data.NgayNhan,
-        NgayTra: data.NgayTra,
-        SoNgayThue: data.SoNgayThue,
-        NguoiLon: data.NguoiLon,
-        TreEm: data.TreEm,
-        GiaThue: data.GiaThue,
-        PhuThu: data.PhuThu,
-        TongTien: data.TongTien,
-        GhiChu: data.GhiChu,
-        MaNhanVien: data.MaNhanVien,
-        MaTrangThai: data.MaTrangThai,
+      MaKhachHang: data.KhachHang?.MaKhachHang,
+      MaPhong: data.MaPhong ,
+      NgayNhan: data.NgayNhan,
+      NgayTra: data.NgayTra,
+      SoNgayThue: data.SoNgayThue,
+      NguoiLon: data.NguoiLon,
+      TreEm: data.TreEm,
+      GiaThue: data.GiaThue,
+      PhuThu: data.PhuThu,
+      TongTien: data.TongTien,
+      GhiChu: data.GhiChu,
+      MaNhanVien: data.MaNhanVien,
+      MaTrangThai: data.MaTrangThai,
     });
   },
   deleteOne: (id) => {

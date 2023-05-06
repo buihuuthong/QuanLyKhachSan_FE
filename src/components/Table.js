@@ -2,6 +2,7 @@ import { Table, Tag } from "antd";
 import dayjs from "dayjs";
 import React from "react";
 import { ActionButton, AddButton } from "./Button";
+import { GetColumnSearchProps } from "./Search";
 
 export const DefautlTable = ({
   dataSource,
@@ -18,6 +19,7 @@ export const DefautlTable = ({
       title: "Họ tên",
       dataIndex: "HoTen",
       key: "HoTen",
+      ...GetColumnSearchProps("HoTen"),
     },
     {
       title: "Ngày sinh",
@@ -37,26 +39,30 @@ export const DefautlTable = ({
       title: "Số điện thoại",
       dataIndex: "SDT",
       key: "SDT",
+      ...GetColumnSearchProps("SDT"),
     },
     {
       title: "Email",
       dataIndex: "Email",
       key: "Email",
+      ...GetColumnSearchProps("Email"),
     },
-    ...(khachhang ? [] : [
-      {
-        title: "Chức vụ",
-        key: "ChucVu",
-        dataIndex: "ChucVu",
-        render: (_, record) => (
-          <Tag color={"green"} key={record.ChucVu?.TenChucVu}>
-            {record.ChucVu?.TenChucVu}
-          </Tag>
-        ),
-      },
-    ]),
+    ...(khachhang
+      ? []
+      : [
+          {
+            title: "Chức vụ",
+            key: "ChucVu",
+            dataIndex: "ChucVu",
+            render: (_, record) => (
+              <Tag color={"green"} key={record.ChucVu?.TenChucVu}>
+                {record.ChucVu?.TenChucVu}
+              </Tag>
+            ),
+          },
+        ]),
     {
-      title: "Action",
+      title: "",
       key: "action",
       render: (_, record) => (
         <ActionButton
@@ -93,22 +99,20 @@ export const BookRoomTable = ({
   currentPage,
   totalItems,
   onChange,
-  datphong
+  datphong,
 }) => {
   const BookRoomColumn = [
-  
     {
       title: "Tên Khách hàng",
       dataIndex: "KhachHang",
       key: "KhachHang",
+      ...GetColumnSearchProps("KhachHang"),
       render: (_, record) =>
-       datphong ? null : (
-            <span key={record.KhachHang?.HoTen}>
-              {record.KhachHang?.HoTen}
-            </span>
-          ),
+        datphong ? null : (
+          <span key={record.KhachHang?.HoTen}>{record.KhachHang?.HoTen}</span>
+        ),
     },
-    { 
+    {
       title: "Ngày nhận",
       dataIndex: "NgayNhan",
       key: "NgayNhan",
@@ -127,6 +131,13 @@ export const BookRoomTable = ({
         ),
     },
     {
+      title: "Phòng",
+      dataIndex: "Phong",
+      key: "Phong",
+      render: (_, record) =>
+        record.Phong == null ? null : <p>{record.Phong?.TenPhong}</p>,
+    },
+    {
       title: "Giá thuê",
       dataIndex: "GiaThue",
       key: "GiaThue",
@@ -141,12 +152,15 @@ export const BookRoomTable = ({
       dataIndex: "TongTien",
       key: "TongTien",
     },
-  
+
     {
-      title: "Action",
+      title: "",
       key: "action",
       render: (_, record) => (
-        <ActionButton edit={() => edit(record.MaDatPhong)} remove={() => remove(record.MaDatPhong)} />
+        <ActionButton
+          edit={() => edit(record.MaDatPhong)}
+          remove={() => remove(record.MaDatPhong)}
+        />
       ),
     },
   ];
@@ -175,42 +189,81 @@ export const RoomTable = ({
   currentPage,
   totalItems,
   onChange,
-  phong
+  phong,
 }) => {
   const RoomColumn = [
     {
       title: "Tên phòng",
       dataIndex: "TenPhong",
       key: "TenPhong",
+      ...GetColumnSearchProps("TenPhong"),
     },
     {
       title: "Tên loại phòng",
       dataIndex: "LoaiPhong",
       key: "LoaiPhong",
+      filters: [
+        {
+          text: "Phòng đơn",
+          value: "Phòng đơn",
+        },
+        {
+          text: "Phòng đôi",
+          value: "Phòng đôi",
+        },
+        {
+          text: "Phòng gia đình",
+          value: "Phòng gia đình",
+        },
+      ],
+      filterMode: "tree",
+      filterSearch: true,
+      onFilter: (value, record) =>
+        record.LoaiPhong?.TenLoaiPhong.startsWith(value),
       render: (_, record) =>
-          phong ? null : (
-            <span key={record.LoaiPhong?.TenLoaiPhong}>
-              {record.LoaiPhong?.TenLoaiPhong}
-            </span>
-          ),
-
+        phong ? null : (
+          <span key={record.LoaiPhong?.TenLoaiPhong}>
+            {record.LoaiPhong?.TenLoaiPhong}
+          </span>
+        ),
     },
     {
       title: "Tên tình trạng",
       dataIndex: "TinhTrangPhong",
       key: "TinhTrangPhong",
+      filters: [
+        {
+          text: "Sẵn sàng",
+          value: "Sẵn sàng",
+        },
+        {
+          text: "Đang thuê",
+          value: "Đang thuê",
+        },
+        {
+          text: "Đang sửa chữa",
+          value: "Đang sửa chữa",
+        },
+      ],
+      filterMode: "tree",
+      filterSearch: true,
+      onFilter: (value, record) =>
+        record.TinhTrangPhong?.TenTinhTrang.startsWith(value),
       render: (_, record) =>
-          phong ? null : (
-            <span key={record.TinhTrangPhong?.TenTinhTrang}>
-              {record.TinhTrangPhong?.TenTinhTrang}
-            </span>
-          ),
+        phong ? null : (
+          <span key={record.TinhTrangPhong?.TenTinhTrang}>
+            {record.TinhTrangPhong?.TenTinhTrang}
+          </span>
+        ),
     },
-    { 
-      title: "Action",
+    {
+      title: "",
       key: "action",
       render: (_, record) => (
-        <ActionButton edit={() => edit(record.MaPhong)} remove={() => remove(record.MaPhong)} />
+        <ActionButton
+          edit={() => edit(record.MaPhong)}
+          remove={() => remove(record.MaPhong)}
+        />
       ),
     },
   ];
@@ -231,4 +284,3 @@ export const RoomTable = ({
     </div>
   );
 };
-

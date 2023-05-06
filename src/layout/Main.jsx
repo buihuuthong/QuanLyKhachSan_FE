@@ -4,7 +4,7 @@ import MainHeader from "./MainHeader";
 import { Breadcrumb, Layout } from 'antd';
 const { Content, Footer } = Layout;
 
-const Main = ({ children }) => {
+const Main = ({ children, title }) => {
   return (
     <Layout className="flex flex-row" style={{ minHeight: "100vh" }}>
       {/* Sidebar */}
@@ -15,8 +15,7 @@ const Main = ({ children }) => {
         <MainHeader />
         <Content style={{ margin: "0 16px" }}>
           <Breadcrumb style={{ margin: "16px 0" }}>
-            <Breadcrumb.Item>User</Breadcrumb.Item>
-            <Breadcrumb.Item>Bill</Breadcrumb.Item>
+            <Breadcrumb.Item className="text-xl font-semibold">{title}</Breadcrumb.Item>
           </Breadcrumb>
           {children}
         </Content>

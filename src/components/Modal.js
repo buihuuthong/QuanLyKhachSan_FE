@@ -151,7 +151,7 @@ export const AddBookRoomModal = ({
 }) => {
   return (
     <Modal
-      title="Đặt Thêm Phòng"
+      title="Đặt Phòng"
       centered
       open={isAddModal}
       footer={null}

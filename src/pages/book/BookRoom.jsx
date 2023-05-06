@@ -43,13 +43,14 @@ const BookRoom = () => {
 
   // Gọi api thêm dat phong
   const addValue = async (value) => {
+    console.log(value);
     try {
       await bookroomApi.create(value);
       setIsAddModal(false);
       getData();
       notification.success({
-        message: "Thêm thành công",
-        description: "Thêm phòng mới thành công!",
+        message: "Tạo thành công",
+        description: "Tạo đơn đặt thành công!",
       });
     } catch (error) {
       console.log(error);
@@ -82,7 +83,7 @@ const BookRoom = () => {
       getData();
       notification.success({
         message: "Cập nhật thông tin thành công",
-        description: "Cập nhật thông tin khách hàng thành công!",
+        description: "Cập nhật thông tin đơn đặt thành công!",
       });
     } catch (error) {
       console.log(error);
@@ -102,8 +103,8 @@ const BookRoom = () => {
       setIsDeleteModal(false);
       getData();
       notification.warning({
-        message: "Xóa phòng thành công",
-        description: "Xóa phòng khách hàng thành công!",
+        message: "Xóa đơn đặt thành công",
+        description: "Xóa đơn đặt thành công!",
       });
     } catch (error) {
       console.log(error);
@@ -111,7 +112,7 @@ const BookRoom = () => {
   };
 
   return (
-    <Main>
+    <Main title="Quản lý đặt phòng">
       {/* Table hiển thị danh sách phòng*/}
       <BookRoomTable
         add={() => setIsAddModal(true)}

@@ -7,6 +7,9 @@ const customerApi = {
       MatKhau: matkhau,
     });
   },
+  getAllNotPage: () => {
+    return AxiosClient.get("khach-hang/danh-sach");
+  },
   getAll: (page) => {
     return AxiosClient.get("khach-hang/danh-sach?page=" + page);
   },
@@ -26,8 +29,6 @@ const customerApi = {
   },
   edit: ({ id, data }) => {
     return AxiosClient.put("khach-hang/sua?id=" + id, {
-      TaiKhoan: data.TaiKhoan,
-      MatKhau: data.MatKhau,
       HoTen: data.HoTen,
       NgaySinh: data.NgaySinh,
       DiaChi: data.DiaChi,

@@ -1,7 +1,9 @@
 import AxiosClient from "./AxiosClient";
 
 const roomApi = {
-  
+  getAllNotPage: () => {
+    return AxiosClient.get("phong/danh-sach-phong");
+  },
   getAll: (page) => {
     return AxiosClient.get("phong/danh-sach-phong?page=" + page);
   },
@@ -10,17 +12,32 @@ const roomApi = {
   },
   create: (data) => {
     return AxiosClient.post("phong/tao-phong", {
-        TenPhong: data.TenPhong,
-        MaLoaiPhong: data.MaLoaiPhong,
-        MaTinhTrang: data.MaTinhTrang,
-
+      TenPhong: data.TenPhong,
+      MaLoaiPhong: data.MaLoaiPhong,
+      MaTinhTrang: data.MaTinhTrang,
     });
   },
   edit: ({ id, data }) => {
     return AxiosClient.put("phong/sua-phong?id=" + id, {
-        TenPhong: data.TenPhong,
-        MaLoaiPhong: data.LoaiPhong,
-        MaTinhTrang: data.TinhTrangPhong,
+      TenPhong: data.TenPhong,
+      MaLoaiPhong:
+        data.LoaiPhong === "Phòng đơn"
+          ? 1
+          : data.LoaiPhong === "Phòng đôi"
+          ? 2
+          : data.LoaiPhong === "Phòng gia đình"
+          ? 3
+          : data.LoaiPhong === "Phòng VIP"
+          ? 4
+          : data.LoaiPhong,
+      MaTinhTrang:
+        data.TinhTrangPhong === "Sẵn sàng"
+          ? 1
+          : data.TinhTrangPhong === "Đang thuê"
+          ? 2
+          : data.TinhTrangPhong === "Đang sửa chữa"
+          ? 3
+          : data.TinhTrangPhong,
     });
   },
   deleteOne: (id) => {

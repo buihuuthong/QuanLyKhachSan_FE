@@ -7,6 +7,9 @@ const employeeApi = {
       MatKhau: data.matkhau,
     });
   },
+  getAllNotPage: () => {
+    return AxiosClient.get("nhan-vien/danh-sach");
+  },
   getAll: (page) => {
     return AxiosClient.get("nhan-vien/danh-sach?page=" + page);
   },
@@ -27,8 +30,6 @@ const employeeApi = {
   },
   edit: ({ id, data }) => {
     return AxiosClient.put("nhan-vien/sua?id=" + id, {
-      TaiKhoan: data.TaiKhoan,
-      MatKhau: data.MatKhau,
       HoTen: data.HoTen,
       NgaySinh: data.NgaySinh,
       DiaChi: data.DiaChi,

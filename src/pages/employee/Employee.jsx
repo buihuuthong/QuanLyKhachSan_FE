@@ -129,7 +129,7 @@ const Employee = () => {
   };
 
   return (
-    <Main>
+    <Main title="Quản lý nhân viên">
       {/* Table hiển thị danh sách */}
       <DefautlTable
         add={() => setIsAddModal(true)}

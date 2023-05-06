@@ -1,17 +1,13 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Loading } from "../components/Loading";
 import Signin from "../pages/auth/Signin";
 import Signup from "../pages/auth/Signup";
-import Home from "../pages/home/Home";
-import Employee from "../pages/employee/Employee";
-import Salary from "../pages/employee/Salary";
-import Role from "../pages/employee/Role";
-import Customer from "../pages/customer/Customer";
-import Room from "../pages/room/Room";
-import RoomType from "../pages/room/RoomType";
-import RoomState from "../pages/room/RoomState";
-import { Loading } from "../components/Loading";
 import BookRoom from "../pages/book/BookRoom";
+import Customer from "../pages/customer/Customer";
+import Employee from "../pages/employee/Employee";
+import Home from "../pages/home/Home";
+import Room from "../pages/room/Room";
 
 const App = () => {
   return (
@@ -25,8 +21,6 @@ const App = () => {
         {/* Nhân viên */}
         <Route path="/employee/*">
           <Route path="account" element={<Employee />} />
-          <Route path="salary" element={<Salary />} />
-          <Route path="role" element={<Role />} />
         </Route>
 
         {/* Khách hàng */}
@@ -37,8 +31,6 @@ const App = () => {
         {/* Phòng */}
         <Route path="/room/*">
           <Route path="list" element={<Room />} />
-          <Route path="type" element={<RoomType />} />
-          <Route path="state" element={<RoomState />} />
         </Route>
 
         {/* Phòng */}

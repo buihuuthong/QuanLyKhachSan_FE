@@ -8,8 +8,11 @@ import {
 import { DefautlTable } from "../../components/Table";
 import Main from "../../layout/Main";
 import customerApi from "../../services/customerApi";
+import { useDispatch } from "react-redux";
+import { getKhachHang } from "../../redux/khachHangSlice";
 
 const Customer = () => {
+  const dispatch = useDispatch();
   // show/ hide modal
   const [isEditModal, setIsEditModal] = useState(false);
   const [isAddModal, setIsAddModal] = useState(false);
@@ -54,6 +57,7 @@ const Customer = () => {
       await customerApi.create(value);
       setIsAddModal(false);
       getData();
+      dispatch(getKhachHang());
       notification.success({
         message: "Thêm thành công",
         description: "Thêm khách hàng mới thành công!",
@@ -94,6 +98,7 @@ const Customer = () => {
       });
       setIsEditModal(false);
       getData();
+      dispatch(getKhachHang());
       notification.success({
         message: "Cập nhật thông tin thành công",
         description: "Cập nhật thông tin khách hàng thành công!",
@@ -119,6 +124,7 @@ const Customer = () => {
       await customerApi.deleteOne(userId);
       setIsDeleteModal(false);
       getData();
+      dispatch(getKhachHang());
       notification.warning({
         message: "Xóa tài khoản thành công",
         description: "Xóa tài khoản khách hàng thành công!",
@@ -134,7 +140,7 @@ const Customer = () => {
   };
 
   return (
-    <Main>
+    <Main title="Quản lý khách hàng">
       {/* Table hiển thị danh sách */}
       <DefautlTable
         add={() => setIsAddModal(true)}

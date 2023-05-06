@@ -21,8 +21,6 @@ const items = [
   },
   getItem("Quản lý nhân viên", "/employee", <UserOutlined />, [
     getItem("Tài khoản", "/employee/account"),
-    getItem("Lương", "/employee/salary"),
-    getItem("Chức vụ", "/employee/role"),
   ]),
   {
     type: "divider",
@@ -33,10 +31,8 @@ const items = [
   {
     type: "divider",
   },
-  getItem("Quản lý phòng", "/room", <SettingOutlined />, [
+  getItem("Quản lý phòng", "/room", <HomeOutlined />, [
     getItem("Danh sách phòng", "/room/list"),
-    getItem("Loại phòng", "/room/type"),
-    getItem("Trạng thái phòng", "/room/state"),
   ]),
   {
     type: "divider",
@@ -85,9 +81,9 @@ const Sidebar = () => {
     >
       {/* Sidebar header */}
       <div className="flex items-center justify-center h-20 border-b border-gray-200">
-        <h1 className="text-2xl font-bold text-emerald-500 text-center">
+        <a href="/home" className="text-2xl font-bold text-emerald-500 text-center">
           HT TEAM
-        </h1>
+        </a>
       </div>
 
       <Menu
