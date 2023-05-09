@@ -46,6 +46,9 @@ const employeeApi = {
   deleteOne: (id) => {
     return AxiosClient.delete("nhan-vien/xoa?id=" + id);
   },
+  count: () => {
+    return AxiosClient.get("nhan-vien/so-luong");
+  },
 };
 
 export default employeeApi;

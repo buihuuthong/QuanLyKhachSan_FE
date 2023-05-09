@@ -55,7 +55,6 @@ const Employee = () => {
         description: "Thêm nhân viên mới thành công!",
       });
     } catch (error) {
-      setIsAddModal(false);
       notification.error({
         message: "Lỗi khi thêm nhân viên",
         description: error.response?.data?.message,
@@ -94,7 +93,6 @@ const Employee = () => {
         description: "Cập nhật thông tin nhân viên thành công!",
       });
     } catch (error) {
-      setIsEditModal(false);
       notification.error({
         message: "Lỗi khi cập nhật thông tin",
         description: error.response?.data?.message,

@@ -1,11 +1,11 @@
 import {
-  DollarOutlined,
+  DollarCircleOutlined,
   FontSizeOutlined,
   HomeOutlined,
   LockOutlined,
   MailOutlined,
   PhoneOutlined,
-  UserOutlined
+  UserOutlined,
 } from "@ant-design/icons";
 import { Button, Checkbox, DatePicker, Form, Input, Select } from "antd";
 import TextArea from "antd/es/input/TextArea";
@@ -19,7 +19,15 @@ import { trangThaiDatPhongSelector } from "../redux/trangThaiDatPhongSlice";
 
 const { Option } = Select;
 
-const FormItem = ({ label, name, required, message, children, style, defaultValue }) => {
+const FormItem = ({
+  label,
+  name,
+  required,
+  message,
+  children,
+  style,
+  defaultValue,
+}) => {
   return (
     <Form.Item
       label={label}
@@ -148,6 +156,12 @@ export const AddForm = ({
   submit,
   isSignup,
 }) => {
+  const [form] = Form.useForm();
+  const handleFormSubmit = (values) => {
+    onFinish(values);
+    form.resetFields();
+  };
+
   return (
     <Form
       name="add"
@@ -157,10 +171,11 @@ export const AddForm = ({
       initialValues={{
         remember: true,
       }}
-      onFinish={onFinish}
+      onFinish={handleFormSubmit}
       onFinishFailed={onFinishFailed}
       autoComplete="off"
       size="midle"
+      form={form}
     >
       <FormItem
         name="TaiKhoan"
@@ -332,6 +347,11 @@ export const EditFormCustomer = ({
 };
 
 export const AddFormCustomer = ({ onFinish, onFinishFailed, submit }) => {
+  const [form] = Form.useForm();
+  const handleFormSubmit = (values) => {
+    onFinish(values);
+    form.resetFields();
+  };
   return (
     <Form
       name="add"
@@ -341,10 +361,11 @@ export const AddFormCustomer = ({ onFinish, onFinishFailed, submit }) => {
       initialValues={{
         remember: true,
       }}
-      onFinish={onFinish}
+      onFinish={handleFormSubmit}
       onFinishFailed={onFinishFailed}
       autoComplete="off"
       size="midle"
+      form={form}
     >
       <FormItem name="TaiKhoan" message="tài khoản">
         <Input placeholder="Tài khoản" prefix={<UserOutlined />} />
@@ -397,12 +418,8 @@ export const EditFormBookRoom = ({
     MaPhong: formValues.Phong?.MaPhong,
     NgayNhan: dayjs(formValues.NgayNhan, "YYYY-MM-DD"),
     NgayTra: dayjs(formValues.NgayTra, "YYYY-MM-DD"),
-    SoNgayThue: formValues.SoNgayThue,
     NguoiLon: formValues.NguoiLon,
     TreEm: formValues.TreEm,
-    GiaThue: formValues.GiaThue,
-    PhuThu: formValues.PhuThu,
-    TongTien: formValues.TongTien,
     GhiChu: formValues.GhiChu,
     MaNhanVien: formValues.NhanVien?.MaNhanVien,
     MaTrangThai: formValues.TrangThaiDat?.MaTrangThai,
@@ -428,173 +445,17 @@ export const EditFormBookRoom = ({
       size="midle"
       form={form}
     >
-    <div className="flex justify-between">
-      <FormItem
-        name="KhachHang"
-        required={datphong ? true : false}
-        message="tên khách hàng"
-      >
-        <Input placeholder="Tên khách hàng" prefix={<UserOutlined />} disabled />
-      </FormItem>
-      <FormItem
-        name="MaPhong"
-        required={datphong ? true : false}
-        message="phòng"
-      >
-        {/* <Input placeholder="Phòng" prefix={<HomeOutlined />} /> */}
-        <Select placeholder="Phòng" allowClear defaultValue={formValues.Phong?.MaPhong}>
-          {Object.entries(phong).map(([key, value]) => (
-            <Option value={value.MaPhong}>{value.TenPhong}</Option>
-          ))}
-        </Select>
-      </FormItem>
-    </div>
-    <div className="flex justify-between">
-      <FormItem
-        name="NgayNhan"
-        required={datphong ? true : false}
-        message="ngày nhận"
-      >
-        <DatePicker placeholder="Ngày nhận" style={{ width: "100%" }}  showTimezone={false} />
-      </FormItem>
-      <FormItem
-        name="NgayTra"
-        required={datphong ? true : false}
-        message="ngày trả"
-      >
-        <DatePicker placeholder="Ngày trả" style={{ width: "100%" }}  showTimezone={false} />
-      </FormItem>
-    </div>
-    <div className="flex justify-between">
-      <FormItem
-        name="SoNgayThue"
-        required={datphong ? true : false}
-        message="số ngày thuê"
-      >
-        <Input placeholder="Số ngày thuê"/>
-      </FormItem>
-      <FormItem
-        name="GiaThue"
-        required={datphong ? true : false}
-        message="giá thuê"
-      >
-        <Input placeholder="Giá thuê" prefix={<DollarOutlined />} />
-      </FormItem>
-    </div>
-    <div className="flex  justify-between">
-      <FormItem
-        name="PhuThu"
-        required={datphong ? true : false}
-        message="Phụ Thu"
-      >
-        <Input placeholder="Phụ Thu" prefix={<DollarOutlined />} />
-      </FormItem>
-      <FormItem
-        name="TongTien"
-        required={datphong ? true : false}
-        message="tổng tiền"
-      >
-        <Input placeholder="Tổng tiền" prefix={<DollarOutlined />} />
-      </FormItem>
-    </div>
-    <div className="flex  justify-between">
-      <FormItem
-        name="NguoiLon"
-        required={datphong ? true : false}
-        message="Người lớn"
-      >
-        <Input placeholder="Người lớn" prefix={<UserOutlined />} />
-      </FormItem>
-      <FormItem
-        name="TreEm"
-        required={datphong ? true : false}
-        message="Trẻ em"
-      >
-        <Input placeholder="Trẻ em" prefix={<UserOutlined />} />
-      </FormItem>
-    </div>
-    <div className="flex  justify-between">
-      <FormItem
-        name="MaTrangThai"
-        required={datphong ? true : false}
-        message="trạng thái"
-      >
-        {/* <Input placeholder="Mã Trang Thái" prefix={<FontSizeOutlined />} /> */}
-        <Select placeholder="Trạng thái" allowClear>
-          {Object.entries(trangThaiDatPhong).map(([key, value]) => (
-            <Option key={value.MaTrangThai} value={value.MaTrangThai}>
-              {value.TenTrangThai}
-            </Option>
-          ))}
-        </Select>
-      </FormItem>
-      <FormItem
-        name="MaNhanVien"
-        required={datphong ? true : false}
-        message="Mã Nhân viên"
-      >
-        {/* <Input placeholder="Mã Nhân Viên" prefix={<FontSizeOutlined />} /> */}
-        <Select placeholder="Nhân viên" allowClear>
-          {Object.entries(employee).map(([key, value]) => (
-            <Option value={value.MaNhanVien}>{value.HoTen}</Option>
-          ))}
-        </Select>
-      </FormItem>
-    </div>
-    <FormItem
-      name="GhiChu"
-      message="ghi chú"
-    >
-      <TextArea rows={4} placeholder="Ghi chú" />
-    </FormItem>
-      {submit ? (
-        <Form.Item>
-          <Button className="large-btn" type="primary" htmlType="submit">
-            {submit}
-          </Button>
-        </Form.Item>
-      ) : null}
-    </Form>
-  );
-};
-
-export const AddFormBookRoom = ({
-  datphong,
-  onFinish,
-  onFinishFailed,
-  submit,
-}) => {
-  const trangThaiDatPhong = useSelector(trangThaiDatPhongSelector);
-  const khachHang = useSelector(khachHangSelector);
-  const phong = useSelector(phongSelector);
-  const employee = useSelector(employeeSelector);
-
-  return (
-    <Form
-      name="add"
-      style={{
-        maxWidth: 600,
-      }}
-      initialValues={{
-        remember: true,
-      }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      autoComplete="off"
-      size="midle"
-    >
       <div className="flex justify-between">
         <FormItem
           name="KhachHang"
           required={datphong ? true : false}
           message="tên khách hàng"
         >
-          {/* <Input placeholder="Tên khách hàng" prefix={<UserOutlined />} /> */}
-          <Select placeholder="Tên khách hàng" allowClear>
-            {Object.entries(khachHang).map(([key, value]) => (
-              <Option value={value.MaKhachHang}>{value.HoTen}</Option>
-            ))}
-          </Select>
+          <Input
+            placeholder="Tên khách hàng"
+            prefix={<UserOutlined />}
+            disabled
+          />
         </FormItem>
         <FormItem
           name="MaPhong"
@@ -602,7 +463,11 @@ export const AddFormBookRoom = ({
           message="phòng"
         >
           {/* <Input placeholder="Phòng" prefix={<HomeOutlined />} /> */}
-          <Select placeholder="Phòng" allowClear>
+          <Select
+            placeholder="Phòng"
+            allowClear
+            defaultValue={formValues.Phong?.MaPhong}
+          >
             {Object.entries(phong).map(([key, value]) => (
               <Option value={value.MaPhong}>{value.TenPhong}</Option>
             ))}
@@ -615,46 +480,22 @@ export const AddFormBookRoom = ({
           required={datphong ? true : false}
           message="ngày nhận"
         >
-          <DatePicker placeholder="Ngày nhận" style={{ width: "100%" }} />
+          <DatePicker
+            placeholder="Ngày nhận"
+            style={{ width: "100%" }}
+            showTimezone={false}
+          />
         </FormItem>
         <FormItem
           name="NgayTra"
           required={datphong ? true : false}
           message="ngày trả"
         >
-          <DatePicker placeholder="Ngày trả" style={{ width: "100%" }} />
-        </FormItem>
-      </div>
-      <div className="flex justify-between">
-        <FormItem
-          name="SoNgayThue"
-          required={datphong ? true : false}
-          message="số ngày thuê"
-        >
-          <Input placeholder="Số ngày thuê"/>
-        </FormItem>
-        <FormItem
-          name="GiaThue"
-          required={datphong ? true : false}
-          message="giá thuê"
-        >
-          <Input placeholder="Giá thuê" prefix={<DollarOutlined />} />
-        </FormItem>
-      </div>
-      <div className="flex  justify-between">
-        <FormItem
-          name="PhuThu"
-          required={datphong ? true : false}
-          message="Phụ Thu"
-        >
-          <Input placeholder="Phụ Thu" prefix={<DollarOutlined />} />
-        </FormItem>
-        <FormItem
-          name="TongTien"
-          required={datphong ? true : false}
-          message="tổng tiền"
-        >
-          <Input placeholder="Tổng tiền" prefix={<DollarOutlined />} />
+          <DatePicker
+            placeholder="Ngày trả"
+            style={{ width: "100%" }}
+            showTimezone={false}
+          />
         </FormItem>
       </div>
       <div className="flex  justify-between">
@@ -701,10 +542,138 @@ export const AddFormBookRoom = ({
           </Select>
         </FormItem>
       </div>
-      <FormItem
-        name="GhiChu"
-        message="ghi chú"
-      >
+      <FormItem name="GhiChu" message="ghi chú">
+        <TextArea rows={4} placeholder="Ghi chú" />
+      </FormItem>
+      {submit ? (
+        <Form.Item>
+          <Button className="large-btn" type="primary" htmlType="submit">
+            {submit}
+          </Button>
+        </Form.Item>
+      ) : null}
+    </Form>
+  );
+};
+
+export const AddFormBookRoom = ({
+  datphong,
+  onFinish,
+  onFinishFailed,
+  submit,
+}) => {
+  const [form] = Form.useForm();
+  const handleFormSubmit = (values) => {
+    onFinish(values);
+    form.resetFields();
+  };
+  const trangThaiDatPhong = useSelector(trangThaiDatPhongSelector);
+  const khachHang = useSelector(khachHangSelector);
+  const phong = useSelector(phongSelector);
+  const employee = useSelector(employeeSelector);
+
+  return (
+    <Form
+      name="add"
+      style={{
+        maxWidth: 600,
+      }}
+      initialValues={{
+        remember: true,
+      }}
+      onFinish={handleFormSubmit}
+      onFinishFailed={onFinishFailed}
+      autoComplete="off"
+      size="midle"
+      form={form}
+    >
+      <div className="flex justify-between">
+        <FormItem
+          name="KhachHang"
+          required={datphong ? true : false}
+          message="tên khách hàng"
+        >
+          {/* <Input placeholder="Tên khách hàng" prefix={<UserOutlined />} /> */}
+          <Select placeholder="Tên khách hàng" allowClear>
+            {Object.entries(khachHang).map(([key, value]) => (
+              <Option value={value.MaKhachHang}>{value.HoTen}</Option>
+            ))}
+          </Select>
+        </FormItem>
+        <FormItem
+          name="MaPhong"
+          required={datphong ? true : false}
+          message="phòng"
+        >
+          {/* <Input placeholder="Phòng" prefix={<HomeOutlined />} /> */}
+          <Select placeholder="Phòng" allowClear>
+            {Object.entries(phong).map(([key, value]) => (
+              <Option value={value.MaPhong}>{value.TenPhong}</Option>
+            ))}
+          </Select>
+        </FormItem>
+      </div>
+      <div className="flex justify-between">
+        <FormItem
+          name="NgayNhan"
+          required={datphong ? true : false}
+          message="ngày nhận"
+        >
+          <DatePicker placeholder="Ngày nhận" style={{ width: "100%" }} />
+        </FormItem>
+        <FormItem
+          name="NgayTra"
+          required={datphong ? true : false}
+          message="ngày trả"
+        >
+          <DatePicker placeholder="Ngày trả" style={{ width: "100%" }} />
+        </FormItem>
+      </div>
+      <div className="flex  justify-between">
+        <FormItem
+          name="NguoiLon"
+          required={datphong ? true : false}
+          message="Người lớn"
+        >
+          <Input placeholder="Người lớn" prefix={<UserOutlined />} />
+        </FormItem>
+        <FormItem
+          name="TreEm"
+          required={datphong ? true : false}
+          message="Trẻ em"
+        >
+          <Input placeholder="Trẻ em" prefix={<UserOutlined />} />
+        </FormItem>
+      </div>
+      <div className="flex  justify-between">
+        <FormItem
+          name="MaTrangThai"
+          required={datphong ? true : false}
+          message="trạng thái"
+        >
+          {/* <Input placeholder="Mã Trang Thái" prefix={<FontSizeOutlined />} /> */}
+          <Select placeholder="Trạng thái" allowClear>
+            {Object.entries(trangThaiDatPhong).map(([key, value]) => (
+              <Option key={value.MaTrangThai} value={value.MaTrangThai}>
+                {value.TenTrangThai}
+              </Option>
+            ))}
+          </Select>
+        </FormItem>
+        <FormItem
+          name="MaNhanVien"
+          required={datphong ? true : false}
+          message="Mã Nhân viên"
+        >
+          {/* <Input placeholder="Mã Nhân Viên" prefix={<FontSizeOutlined />} /> */}
+          <Select placeholder="Nhân viên" allowClear>
+            {Object.entries(employee).map(([key, value]) => (
+              <Option value={value.MaNhanVien}>{value.HoTen}</Option>
+            ))}
+          </Select>
+        </FormItem>
+      </div>
+      <FormItem name="GhiChu" message="ghi chú">
         <TextArea rows={4} placeholder="Ghi chú" />
       </FormItem>
       {submit ? (
@@ -797,6 +766,11 @@ export const EditFormRoom = ({
 };
 
 export const AddFormRoom = ({ phong, onFinish, onFinishFailed, submit }) => {
+  const [form] = Form.useForm();
+  const handleFormSubmit = (values) => {
+    onFinish(values);
+    form.resetFields();
+  };
   return (
     <Form
       name="add"
@@ -806,10 +780,11 @@ export const AddFormRoom = ({ phong, onFinish, onFinishFailed, submit }) => {
       initialValues={{
         remember: true,
       }}
-      onFinish={onFinish}
+      onFinish={handleFormSubmit}
       onFinishFailed={onFinishFailed}
       autoComplete="off"
       size="midle"
+      form={form}
     >
       <FormItem
         name="TenPhong"
@@ -886,6 +861,61 @@ export const SigninForm = ({ onFinish, onFinishFailed, onChecked, submit }) => {
           {submit}
         </Button>
       </Form.Item>
+    </Form>
+  );
+};
+
+export const PhuThuForm = ({
+  onFinish,
+  onFinishFailed,
+  submit,
+  formValues,
+}) => {
+  const [form] = Form.useForm();
+  form.setFieldsValue({
+    PhuThu: formValues.PhuThu,
+    LyDo: formValues.LyDo,
+    GhiChu: formValues.GhiChu,
+  });
+  const handleFormSubmit = (values) => {
+    onFinish(values);
+    form.resetFields();
+  };
+
+  return (
+    <Form
+      layout="vertical"
+      name="add"
+      style={{
+        maxWidth: 600,
+      }}
+      initialValues={{
+        remember: true,
+        layout: "vertical",
+      }}
+      onFinish={handleFormSubmit}
+      onFinishFailed={onFinishFailed}
+      autoComplete="off"
+      size="midle"
+      form={form}
+    >
+      <FormItem label="Phụ thu" name="PhuThu" message="phụ thu">
+        <Input placeholder="Phụ thu" prefix={<DollarCircleOutlined />} />
+      </FormItem>
+      <FormItem label="Lý do" name="LyDo" message="lý do">
+        <TextArea rows={4} placeholder="Lý do" />
+      </FormItem>
+      <FormItem label="Ghi chú" name="GhiChu" message="ghi chú">
+        <Input placeholder="Ghi chú" />
+      </FormItem>
+
+      {submit ? (
+        <Form.Item>
+          <Button className="large-btn" type="primary" htmlType="submit">
+            {submit}
+          </Button>
+        </Form.Item>
+      ) : null}
     </Form>
   );
 };

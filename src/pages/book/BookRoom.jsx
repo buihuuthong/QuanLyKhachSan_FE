@@ -1,15 +1,23 @@
+import { notification } from "antd";
 import React, { useEffect, useState } from "react";
-import { DeleteModal, AddBookRoomModal, BookRoomModal } from "../../components/Modal";
+import {
+  AddBookRoomModal,
+  BookRoomModal,
+  HoaDonModal,
+  PhuThuModal,
+} from "../../components/Modal";
 import { BookRoomTable } from "../../components/Table";
 import Main from "../../layout/Main";
 import bookroomApi from "../../services/bookroomApi";
-import { notification } from "antd";
+import dayjs from "dayjs";
+import roomApi from "../../services/roomApi";
 
 const BookRoom = () => {
   // show/ hide modal
   const [isEditModal, setIsEditModal] = useState(false);
   const [isAddModal, setIsAddModal] = useState(false);
-  const [isDeleteModal, setIsDeleteModal] = useState(false);
+  const [isPhuThuModal, setIsPhuThuModal] = useState(false);
+  const [isHoaDonModal, setIsHoaDonModal] = useState(false);
 
   //set data cho table và modal
   const [data, setData] = useState([]);
@@ -42,19 +50,45 @@ const BookRoom = () => {
   }, [currentPage]);
 
   // Gọi api thêm dat phong
-  const addValue = async (value) => {
-    console.log(value);
-    try {
-      await bookroomApi.create(value);
-      setIsAddModal(false);
-      getData();
-      notification.success({
-        message: "Tạo thành công",
-        description: "Tạo đơn đặt thành công!",
+  const addValue = (value) => {
+    const date1 = dayjs(value.NgayNhan);
+    const date2 = dayjs(value.NgayTra);
+    const diffInDays = date2.diff(date1, "day");
+
+    const phong = roomApi.getOne(value.MaPhong);
+    phong
+      .then(async (data) => {
+        const TongTien = data.LoaiPhong?.GiaThue * diffInDays;
+        const obj = {
+          MaKhachHang: value.KhachHang,
+          MaPhong: value.MaPhong,
+          NgayNhan: value.NgayNhan,
+          NgayTra: value.NgayTra,
+          SoNgayThue: diffInDays,
+          NguoiLon: value.NguoiLon,
+          TreEm: value.TreEm ?? 0,
+          GiaThue: data.LoaiPhong?.GiaThue,
+          TongTien: TongTien,
+          GhiChu: value.GhiChu,
+          MaNhanVien: value.MaNhanVien,
+          MaTrangThai: value.MaTrangThai,
+        };
+        try {
+          const res = await bookroomApi.create(obj);
+          bookroomApi.createPhuThu(res);
+          setIsAddModal(false);
+          getData();
+          notification.success({
+            message: "Tạo thành công",
+            description: "Tạo đơn đặt thành công!",
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
       });
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   // Show modal và gọi api lấy thông tin phòng theo id
@@ -72,12 +106,31 @@ const BookRoom = () => {
   };
 
   // Gọi api sửa thông tin phòng
-  
   const editValue = async (value) => {
     try {
+      const date1 = dayjs(value.NgayNhan);
+      const date2 = dayjs(value.NgayTra);
+      const diffInDays = date2.diff(date1, "day");
+      const TongTien =
+        formValues.GiaThue * diffInDays + formValues.PhuThuDatPhong?.PhuThu;
+
+      const data = {
+        MaKhachHang: formValues.MaKhachHang,
+        MaPhong: value.MaPhong,
+        NgayNhan: value.NgayNhan,
+        NgayTra: value.NgayTra,
+        SoNgayThue: diffInDays,
+        NguoiLon: value.NguoiLon,
+        TreEm: value.TreEm ?? 0,
+        GiaThue: formValues.GiaThue,
+        TongTien: TongTien,
+        GhiChu: value.GhiChu,
+        MaNhanVien: value.MaNhanVien,
+        MaTrangThai: value.MaTrangThai,
+      };
       await bookroomApi.edit({
         id: RoomId,
-        data: value,
+        data: data,
       });
       setIsEditModal(false);
       getData();
@@ -90,25 +143,52 @@ const BookRoom = () => {
     }
   };
 
-  // Show modal và lấy id phòng
-  const showDeleteModal = (id) => {
-    setRoomId(id);
-    setIsDeleteModal(true);
+  const showPhuThuModal = (id) => {
+    const result = bookroomApi.getPhuThu(id);
+    result
+      .then((data) => {
+        setFormValues(data);
+        setIsPhuThuModal(true);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
-  // Xóa phòng
-  const deleteValue = async () => {
+  // Gọi api sửa thông tin phụ thu
+  const editPhuThu = async (value) => {
+    const data = {
+      PhuThu: value.PhuThu,
+      LyDo: value.LyDo,
+      GhiChu: value.GhiChu,
+      MaNhanVien: formValues.MaNhanVien,
+    };
     try {
-      await bookroomApi.deleteOne(RoomId);
-      setIsDeleteModal(false);
+      await bookroomApi.updatePhuThu({
+        id: formValues.MaDatPhong,
+        data: data,
+      });
+      setIsPhuThuModal(false);
       getData();
-      notification.warning({
-        message: "Xóa đơn đặt thành công",
-        description: "Xóa đơn đặt thành công!",
+      notification.success({
+        message: "Cập nhật thông tin thành công",
+        description: "Cập nhật thông tin phụ thu thành công!",
       });
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const showHoaDonModal = (id) => {
+    const result = bookroomApi.getOne(id);
+    result
+      .then((data) => {
+        setFormValues(data);
+        setIsHoaDonModal(true);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -117,7 +197,8 @@ const BookRoom = () => {
       <BookRoomTable
         add={() => setIsAddModal(true)}
         edit={showEditModal}
-        remove={showDeleteModal}
+        phuthu={showPhuThuModal}
+        hoadon={showHoaDonModal}
         dataSource={data}
         currentPage={currentPage}
         totalItems={totalItems}
@@ -137,12 +218,16 @@ const BookRoom = () => {
         onFinish={addValue}
         datphong
       />
-      {/* Modal xóa phong */}
-      <DeleteModal
-        title="Xóa phòng"
-        isDeleteModal={isDeleteModal}
-        setIsDeleteModal={setIsDeleteModal}
-        handleOk={deleteValue}
+      <PhuThuModal
+        isAddModal={isPhuThuModal}
+        setIsAddModal={setIsPhuThuModal}
+        formValues={formValues}
+        onFinish={editPhuThu}
+      />
+      <HoaDonModal
+        isAddModal={isHoaDonModal}
+        setIsAddModal={setIsHoaDonModal}
+        formValues={formValues}
       />
     </Main>
   );

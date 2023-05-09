@@ -1,7 +1,7 @@
 import { Table, Tag } from "antd";
 import dayjs from "dayjs";
 import React from "react";
-import { ActionButton, AddButton } from "./Button";
+import { ActionButton, AddButton, BookRoomButton } from "./Button";
 import { GetColumnSearchProps } from "./Search";
 
 export const DefautlTable = ({
@@ -95,7 +95,8 @@ export const BookRoomTable = ({
   dataSource,
   add,
   edit,
-  remove,
+  phuthu,
+  hoadon,
   currentPage,
   totalItems,
   onChange,
@@ -138,28 +139,33 @@ export const BookRoomTable = ({
         record.Phong == null ? null : <p>{record.Phong?.TenPhong}</p>,
     },
     {
-      title: "Giá thuê",
-      dataIndex: "GiaThue",
-      key: "GiaThue",
-    },
-    {
-      title: "Phụ thu",
-      dataIndex: "PhuThu",
-      key: "PhuThu",
-    },
-    {
-      title: "Tổng tiền",
+      title: "Tạm tính",
       dataIndex: "TongTien",
       key: "TongTien",
     },
-
+    {
+      title: "Trạng thái",
+      dataIndex: "TrangThaiDat",
+      key: "TrangThaiDat",
+      render: (_, record) => (
+        <Tag
+          color={
+            record.TrangThaiDat?.TenTrangThai === "Đã hủy" ? "red" : "green"
+          }
+          key={record.TrangThaiDat?.TenTrangThai}
+        >
+          {record.TrangThaiDat?.TenTrangThai}
+        </Tag>
+      ),
+    },
     {
       title: "",
       key: "action",
       render: (_, record) => (
-        <ActionButton
+        <BookRoomButton
           edit={() => edit(record.MaDatPhong)}
-          remove={() => remove(record.MaDatPhong)}
+          phuthu={() => phuthu(record.MaDatPhong)}
+          hoadon={() => hoadon(record.MaDatPhong)}
         />
       ),
     },

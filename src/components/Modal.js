@@ -8,7 +8,8 @@ import {
    AddFormBookRoom, 
    EditFormBookRoom,
    AddFormRoom,
-   EditFormRoom
+   EditFormRoom,
+   PhuThuForm
    } from "./Form";
 
 export const UserModal = ({
@@ -218,6 +219,7 @@ export const AddRoomModal = ({
     </Modal>
   );
 };
+
 export const DeleteModal = ({
   title,
   isDeleteModal,
@@ -236,4 +238,74 @@ export const DeleteModal = ({
       <span className="flex items-center"><span> Bạn muốn xóa tài khoản này?</span></span>
     </Modal>
   );
+};
+
+export const PhuThuModal = ({
+  isAddModal,
+  setIsAddModal,
+  onFinish,
+  onFinishFaled,
+  formValues
+}) => {
+  return (
+    <Modal
+      title="Phụ thu"
+      centered
+      open={isAddModal}
+      footer={null}
+      onCancel={() => setIsAddModal(false)}
+    >
+      <PhuThuForm
+        submit="Xác nhận"
+        onFinish={onFinish}
+        onFinishFailed={onFinishFaled}
+        formValues={formValues}
+      />
+    </Modal>
+  );
+};
+
+export const HoaDonModal = ({
+  isAddModal,
+  setIsAddModal,
+  onFinish,
+  onFinishFaled,
+  formValues
+}) => {
+  return (
+    <Modal
+      title={"Hóa đơn đặt phòng số " + formValues?.MaDatPhong}
+      centered
+      open={isAddModal}
+      footer={null}
+      onCancel={() => setIsAddModal(false)}
+    >
+      <p className="font-semibold text-lg">Thông tin khách hàng:</p>
+      <p><span className="font-semibold">Tên khách hàng: </span>{formValues?.KhachHang?.HoTen}</p>
+      <p><span className="font-semibold">Email:</span> {formValues?.KhachHang?.Email}</p>
+      <p><span className="font-semibold">Địa chỉ:</span> {formValues?.KhachHang?.DiaChi}</p>
+      <hr className="my-2"/>
+      <p className="font-semibold text-lg">Thông tin phòng:</p>
+      <p><span className="font-semibold">Phòng số:</span> {formValues?.Phong?.TenPhong}</p>
+      <p><span className="font-semibold">Loại phòng:</span> {formValues?.LoaiPhong?.TenLoaiPhong}</p>
+      <p><span className="font-semibold">Giá thuê:</span> {formValues?.GiaThue}</p>
+      <hr className="my-2"/>
+      <p className="font-semibold text-lg">Thông tin đơn đặt:</p>
+      <div className="flex justify-between mr-40">
+        <p><span className="font-semibold">Người lớn:</span> {formValues?.NguoiLon}</p>
+        <p><span className="font-semibold">Trẻ em:</span> {formValues?.TreEm}</p>
+      </div>
+      <div className="flex justify-between mr-40">
+      <p><span className="font-semibold">Ngày nhận:</span> {formValues?.NgayNhan}</p>
+      <p><span className="font-semibold">Ngày trả:</span> {formValues?.NgayTra}</p>
+      </div>
+      <p><span className="font-semibold">Số ngày thuê:</span> {formValues?.SoNgayThue} ngày</p>
+      <hr className="my-2"/>
+      <p className="font-semibold text-lg">Thanh toán:</p>
+      <p><span className="font-semibold">Tạm tính:</span> {formValues?.TongTien} VND</p>
+      <p><span className="font-semibold">Phụ thu:</span> {formValues?.PhuThuDatPhong?.PhuThu} VND</p>
+      <hr className="my-2 w-[200px]"/>
+      <p className="font-semibold text-lg">Tổng tiền: {formValues?.TongTien + formValues?.PhuThuDatPhong?.PhuThu} VND</p>
+    </Modal>
+  )
 };

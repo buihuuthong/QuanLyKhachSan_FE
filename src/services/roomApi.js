@@ -43,6 +43,9 @@ const roomApi = {
   deleteOne: (id) => {
     return AxiosClient.delete("phong/xoa-phong?id=" + id);
   },
+  count: () => {
+    return AxiosClient.get("phong/so-luong");
+  },
 };
 
 export default roomApi;

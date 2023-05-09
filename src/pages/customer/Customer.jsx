@@ -63,7 +63,6 @@ const Customer = () => {
         description: "Thêm khách hàng mới thành công!",
       });
     } catch (error) {
-      setIsAddModal(false);
       notification.error({
         message: "Lỗi khi thêm khách hàng",
         description: error.response?.data?.message,
@@ -104,7 +103,6 @@ const Customer = () => {
         description: "Cập nhật thông tin khách hàng thành công!",
       });
     } catch (error) {
-      setIsAddModal(false);
       notification.error({
         message: "Lỗi khi cập nhật thông tin",
         description: error.response?.data?.message,

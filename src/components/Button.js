@@ -25,8 +25,26 @@ export const ActionButton = ({ edit, remove }) => {
       <Button className="edit-btn" onClick={edit}>
         Sửa
       </Button>
-      <Button className="remove-btn" onClick={remove}>
-        Xóa
+      {remove ? (
+        <Button className="remove-btn" onClick={remove}>
+          Xóa
+        </Button>
+      ) : null}
+    </Space>
+  );
+};
+
+export const BookRoomButton = ({ edit, phuthu, hoadon }) => {
+  return (
+    <Space size="middle" className="flex flex-row justify-center items-center">
+      <Button className="edit-btn" onClick={edit}>
+        Sửa
+      </Button>
+      <Button  className="edit-btn" style={{ backgroundColor: '#009999'}} onClick={phuthu}>
+        Phụ Thu
+      </Button>
+      <Button className="edit-btn" style={{ backgroundColor: '#00994C'}} onClick={hoadon}>
+        Hóa đơn
       </Button>
     </Space>
   );

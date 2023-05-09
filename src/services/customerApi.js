@@ -39,6 +39,9 @@ const customerApi = {
   deleteOne: (id) => {
     return AxiosClient.delete("khach-hang/xoa?id=" + id);
   },
+  count: () => {
+    return AxiosClient.get("khach-hang/so-luong");
+  },
 };
 
 export default customerApi;

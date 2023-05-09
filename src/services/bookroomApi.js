@@ -8,9 +8,8 @@ const bookroomApi = {
     return AxiosClient.get("dat-phong/don-dat?id=" + id);
   },
   create: (data) => {
-    console.log(data);
     return AxiosClient.post("dat-phong/tao-don", {
-      MaKhachHang: data.KhachHang,
+      MaKhachHang: data.MaKhachHang,
       MaPhong: data.MaPhong,
       NgayNhan: data.NgayNhan,
       NgayTra: data.NgayTra,
@@ -18,7 +17,6 @@ const bookroomApi = {
       NguoiLon: data.NguoiLon,
       TreEm: data.TreEm,
       GiaThue: data.GiaThue,
-      PhuThu: data.PhuThu,
       TongTien: data.TongTien,
       GhiChu: data.GhiChu,
       MaNhanVien: data.MaNhanVien,
@@ -27,23 +25,46 @@ const bookroomApi = {
   },
   edit: ({ id, data }) => {
     return AxiosClient.put("dat-phong/sua-don?id=" + id, {
-      MaKhachHang: data.KhachHang?.MaKhachHang,
-      MaPhong: data.MaPhong ,
+      MaKhachHang: data.MaKhachHang,
+      MaPhong: data.MaPhong,
       NgayNhan: data.NgayNhan,
       NgayTra: data.NgayTra,
       SoNgayThue: data.SoNgayThue,
       NguoiLon: data.NguoiLon,
       TreEm: data.TreEm,
       GiaThue: data.GiaThue,
-      PhuThu: data.PhuThu,
       TongTien: data.TongTien,
       GhiChu: data.GhiChu,
       MaNhanVien: data.MaNhanVien,
       MaTrangThai: data.MaTrangThai,
     });
   },
-  deleteOne: (id) => {
-    return AxiosClient.delete("dat-phong/xoa-don?id=" + id);
+  // deleteOne: (id) => {
+  //   return AxiosClient.delete("dat-phong/xoa-don?id=" + id);
+  // },
+  createPhuThu: (data) => {
+    return AxiosClient.post("services/phu-thu", {
+      MaDatPhong: data.MaDatPhong,
+      PhuThu: 0,
+      LyDo: "",
+      GhiChu: "",
+      NgayTao: data.NgayTao,
+      MaNhanVien: data.MaNhanVien,
+    });
+  },
+  getPhuThu: (id) => {
+    return AxiosClient.get("services/phu-thu?id=" + id);
+  },
+  updatePhuThu: ({id, data}) => {
+    return AxiosClient.put("services/phu-thu?id=" + id, {
+      PhuThu: data.PhuThu,
+      LyDo: data.LyDo,
+      GhiChu: data.GhiChu,
+      MaNhanVien: data.MaNhanVien,
+    });
+  },
+  count: () => {
+    return AxiosClient.get("dat-phong/so-luong");
   },
 };
 
