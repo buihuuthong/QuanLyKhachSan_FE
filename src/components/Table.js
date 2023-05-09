@@ -104,7 +104,7 @@ export const BookRoomTable = ({
 }) => {
   const BookRoomColumn = [
     {
-      title: "Tên Khách hàng",
+      title: "Tên khách hàng",
       dataIndex: "KhachHang",
       key: "KhachHang",
       ...GetColumnSearchProps("KhachHang"),

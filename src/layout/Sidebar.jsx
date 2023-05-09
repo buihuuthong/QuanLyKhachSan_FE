@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { HomeOutlined, SettingOutlined, UserOutlined } from "@ant-design/icons";
+import { HomeOutlined, UserOutlined } from "@ant-design/icons";
 import { Menu } from "antd";
-import { useNavigate, useLocation } from "react-router-dom";
 import Sider from "antd/es/layout/Sider";
+import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const getItem = (label, key, icon, children, type) => {
   return {
@@ -19,27 +19,19 @@ const items = [
   {
     type: "divider",
   },
-  getItem("Quản lý nhân viên", "/employee", <UserOutlined />, [
-    getItem("Tài khoản", "/employee/account"),
-  ]),
+  getItem("Quản lý nhân viên", "/employee/account", <UserOutlined />),
   {
     type: "divider",
   },
-  getItem("Quản lý khách hàng", "/customer", <UserOutlined />, [
-    getItem("Tài khoản", "/customer/account"),
-  ]),
+  getItem("Quản lý khách hàng", "/customer/account", <UserOutlined />),
   {
     type: "divider",
   },
-  getItem("Quản lý phòng", "/room", <HomeOutlined />, [
-    getItem("Danh sách phòng", "/room/list"),
-  ]),
+  getItem("Quản lý phòng", "/room/list", <HomeOutlined />),
   {
     type: "divider",
   },
-  getItem("Quản lý đặt phòng", "/book-room", <HomeOutlined />, [
-    getItem("Danh sách đặt phòng", "/book-room/list"),
-  ]),
+  getItem("Quản lý đặt phòng", "/book-room/list", <HomeOutlined />),
 ];
 
 const rootSubmenuKeys = ["/home", "/employee", "/customer", "/room", "/book-room"];
