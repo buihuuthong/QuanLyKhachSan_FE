@@ -105,3 +105,9 @@ export const GetColumnSearchProps = (dataIndex) => {
       ),
   };
 };
+
+export const SearchBox = () => {
+  return(
+    <Input/>
+  )
+}

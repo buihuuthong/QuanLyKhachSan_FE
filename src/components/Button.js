@@ -34,7 +34,7 @@ export const ActionButton = ({ edit, remove }) => {
   );
 };
 
-export const BookRoomButton = ({ edit, phuthu, hoadon }) => {
+export const BookRoomButton = ({ edit, phuthu, hoadon, huydon }) => {
   return (
     <Space size="middle" className="flex flex-row justify-center items-center">
       <Button className="edit-btn" onClick={edit}>
@@ -45,6 +45,9 @@ export const BookRoomButton = ({ edit, phuthu, hoadon }) => {
       </Button>
       <Button className="edit-btn" style={{ backgroundColor: '#00994C'}} onClick={hoadon}>
         Hóa đơn
+      </Button>
+      <Button className="edit-btn" style={{ backgroundColor: '#ff0000'}} onClick={huydon}>
+        Hủy đơn
       </Button>
     </Space>
   );

@@ -158,6 +158,7 @@ const Employee = () => {
         isDeleteModal={isDeleteModal}
         setIsDeleteModal={setIsDeleteModal}
         handleOk={deleteValue}
+        description="Bạn muốn xóa tài khoản này?"
       />
     </Main>
   );

@@ -142,6 +142,7 @@ const RoomType = () => {
         isDeleteModal={isDeleteModal}
         setIsDeleteModal={setIsDeleteModal}
         handleOk={deleteValue}
+        description="Bạn muốn xóa phòng này?"
       />
     </Main>
   );

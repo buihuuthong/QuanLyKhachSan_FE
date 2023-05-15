@@ -31,9 +31,9 @@ const roomApi = {
           ? 4
           : data.LoaiPhong,
       MaTinhTrang:
-        data.TinhTrangPhong === "Sẵn sàng"
+        data.TinhTrangPhong === "Đang trống"
           ? 1
-          : data.TinhTrangPhong === "Đang thuê"
+          : data.TinhTrangPhong === "Đang dùng"
           ? 2
           : data.TinhTrangPhong === "Đang sửa chữa"
           ? 3
@@ -46,6 +46,9 @@ const roomApi = {
   count: () => {
     return AxiosClient.get("phong/so-luong");
   },
+  book: () => {
+    return AxiosClient.put("phong/dat-phong")
+  }
 };
 
 export default roomApi;

@@ -748,9 +748,9 @@ export const EditFormRoom = ({
         message="Tên tình trạng"
       >
         <Select placeholder="Tình trạng" allowClear>
-          <Option value="1">Sẳn sàng</Option>
-          <Option value="2">Đang thuê</Option>
-          <Option value="3">Đang sửa</Option>
+          <Option value="1">Đang trống</Option>
+          <Option value="2">Đang dùng</Option>
+          <Option value="3">Đang sửa chữa</Option>
         </Select>
       </FormItem>
 
@@ -814,8 +814,8 @@ export const AddFormRoom = ({ phong, onFinish, onFinishFailed, submit }) => {
         message="Mã tình trạng"
       >
         <Select placeholder="Tình trạng" allowClear>
-          <Option value="1">Sẳn sàng</Option>
-          <Option value="2">Đang thuê</Option>
+          <Option value="1">Đang trống</Option>
+          <Option value="2">Đang dùng</Option>
           <Option value="3">Đang sửa chữa</Option>
         </Select>
       </FormItem>

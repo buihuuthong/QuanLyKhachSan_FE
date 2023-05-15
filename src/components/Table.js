@@ -97,6 +97,7 @@ export const BookRoomTable = ({
   edit,
   phuthu,
   hoadon,
+  huydon,
   currentPage,
   totalItems,
   onChange,
@@ -166,6 +167,7 @@ export const BookRoomTable = ({
           edit={() => edit(record.MaDatPhong)}
           phuthu={() => phuthu(record.MaDatPhong)}
           hoadon={() => hoadon(record.MaDatPhong)}
+          huydon={() => huydon(record.MaDatPhong)}
         />
       ),
     },
@@ -239,12 +241,12 @@ export const RoomTable = ({
       key: "TinhTrangPhong",
       filters: [
         {
-          text: "Sẵn sàng",
-          value: "Sẵn sàng",
+          text: "Đang trống",
+          value: "Đang trống",
         },
         {
-          text: "Đang thuê",
-          value: "Đang thuê",
+          text: "Đang dùng",
+          value: "Đang dùng",
         },
         {
           text: "Đang sửa chữa",
@@ -261,6 +263,34 @@ export const RoomTable = ({
             {record.TinhTrangPhong?.TenTinhTrang}
           </span>
         ),
+    },
+    {
+      title: "Lịch Phòng",
+      dataIndex: "DatPhong",
+      key: "DatPhong",
+      render: (_, record) =>
+        record.DatPhong ? (
+          <div>
+            <p className="font-semibold underline">Đơn đặt:</p>
+            <span className="font-semibold">
+              {dayjs(record.DatPhong?.NgayNhan).format("DD-MM-YYYY")}
+              {"  "}-{"  "}
+              {dayjs(record.DatPhong?.NgayTra).format("DD-MM-YYYY")}
+            </span>
+            <span> &#183; </span>
+            <span className="font-semibold">Khách hàng:</span>{" "}
+            {record.DatPhong?.KhachHang?.HoTen}
+            <p></p>
+            <p>
+              <span className="font-semibold">Số điện thoại:</span>{" "}
+              {record.DatPhong?.KhachHang?.SDT}
+            </p>
+            <p>
+              <span className="font-semibold">Email:</span>{" "}
+              {record.DatPhong?.KhachHang?.Email}
+            </p>
+          </div>
+        ) : null,
     },
     {
       title: "",

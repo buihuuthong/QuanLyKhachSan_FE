@@ -66,6 +66,9 @@ const bookroomApi = {
   count: () => {
     return AxiosClient.get("dat-phong/so-luong");
   },
+  cancel: (id) => {
+    return AxiosClient.put("dat-phong/huy-don?id=" + id)
+  }
 };
 
 export default bookroomApi;

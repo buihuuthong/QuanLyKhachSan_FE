@@ -11,6 +11,7 @@ import {
    EditFormRoom,
    PhuThuForm
    } from "./Form";
+import dayjs from "dayjs";
 
 export const UserModal = ({
   isEditModal,
@@ -225,6 +226,7 @@ export const DeleteModal = ({
   isDeleteModal,
   handleOk,
   setIsDeleteModal,
+  description
 }) => {
   return (
     <Modal
@@ -235,7 +237,7 @@ export const DeleteModal = ({
       cancelText="Hủy"
       onCancel={() => setIsDeleteModal(false)}
     >
-      <span className="flex items-center"><span> Bạn muốn xóa tài khoản này?</span></span>
+      <span className="flex items-center"><span> {description}</span></span>
     </Modal>
   );
 };
@@ -296,8 +298,8 @@ export const HoaDonModal = ({
         <p><span className="font-semibold">Trẻ em:</span> {formValues?.TreEm}</p>
       </div>
       <div className="flex justify-between mr-40">
-      <p><span className="font-semibold">Ngày nhận:</span> {formValues?.NgayNhan}</p>
-      <p><span className="font-semibold">Ngày trả:</span> {formValues?.NgayTra}</p>
+      <p><span className="font-semibold">Ngày nhận:</span> {dayjs(formValues?.NgayNhan).format('YYYY-MM-DD')}</p>
+      <p><span className="font-semibold">Ngày trả:</span> {dayjs(formValues?.NgayTra).format('YYYY-MM-DD')}</p>
       </div>
       <p><span className="font-semibold">Số ngày thuê:</span> {formValues?.SoNgayThue} ngày</p>
       <hr className="my-2"/>

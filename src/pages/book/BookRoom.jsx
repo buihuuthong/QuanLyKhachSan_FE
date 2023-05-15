@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import {
   AddBookRoomModal,
   BookRoomModal,
+  DeleteModal,
   HoaDonModal,
   PhuThuModal,
 } from "../../components/Modal";
@@ -18,6 +19,7 @@ const BookRoom = () => {
   const [isAddModal, setIsAddModal] = useState(false);
   const [isPhuThuModal, setIsPhuThuModal] = useState(false);
   const [isHoaDonModal, setIsHoaDonModal] = useState(false);
+  const [isHuyDonModal, setIsHuyDonModal] = useState(false);
 
   //set data cho table và modal
   const [data, setData] = useState([]);
@@ -76,6 +78,7 @@ const BookRoom = () => {
         try {
           const res = await bookroomApi.create(obj);
           bookroomApi.createPhuThu(res);
+          roomApi.book();
           setIsAddModal(false);
           getData();
           notification.success({
@@ -191,6 +194,31 @@ const BookRoom = () => {
       });
   };
 
+  const showHuyDonModal = (id) => {
+    setRoomId(id);
+    setIsHuyDonModal(true)
+  }
+
+  const cancelBook = async () => {
+    try {
+      await bookroomApi.cancel(RoomId);
+      roomApi.book();
+      setIsHuyDonModal(false);
+      getData();
+      notification.success({
+        message: "Hủy đặt phòng thành công",
+        description: "Hủy đơn đặt phòng thành công!",
+      });
+    } catch (error) {
+      notification.error({
+        message: "Lỗi khi hủy đơn đặt",
+        description: error.response?.data?.message,
+      });
+    }
+    
+
+  }
+
   return (
     <Main title="Quản lý đặt phòng">
       {/* Table hiển thị danh sách phòng*/}
@@ -199,6 +227,7 @@ const BookRoom = () => {
         edit={showEditModal}
         phuthu={showPhuThuModal}
         hoadon={showHoaDonModal}
+        huydon={showHuyDonModal}
         dataSource={data}
         currentPage={currentPage}
         totalItems={totalItems}
@@ -228,6 +257,14 @@ const BookRoom = () => {
         isAddModal={isHoaDonModal}
         setIsAddModal={setIsHoaDonModal}
         formValues={formValues}
+      />
+      {/* Modal hủy đơn */}
+      <DeleteModal
+        title="Hủy đơn"
+        isDeleteModal={isHuyDonModal}
+        setIsDeleteModal={setIsHuyDonModal}
+        handleOk={cancelBook}
+        description="Bạn muốn hủy đơn đặt này?"
       />
     </Main>
   );
