@@ -46,9 +46,10 @@ export const BookRoomButton = ({ edit, phuthu, hoadon, huydon }) => {
       <Button className="edit-btn" style={{ backgroundColor: '#00994C'}} onClick={hoadon}>
         Hóa đơn
       </Button>
+      {huydon ? 
       <Button className="edit-btn" style={{ backgroundColor: '#ff0000'}} onClick={huydon}>
         Hủy đơn
-      </Button>
+      </Button> : null}
     </Space>
   );
 };

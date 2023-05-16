@@ -167,7 +167,9 @@ export const BookRoomTable = ({
           edit={() => edit(record.MaDatPhong)}
           phuthu={() => phuthu(record.MaDatPhong)}
           hoadon={() => hoadon(record.MaDatPhong)}
-          huydon={() => huydon(record.MaDatPhong)}
+          {...(record.MaTrangThai === 4
+            ? {}
+            : { huydon: () => huydon(record.MaDatPhong) })}
         />
       ),
     },
@@ -269,7 +271,7 @@ export const RoomTable = ({
       dataIndex: "DatPhong",
       key: "DatPhong",
       render: (_, record) =>
-        record.DatPhong ? (
+        record.DatPhong && record.DatPhong?.MaTrangThai != 4 ? (
           <div>
             <p className="font-semibold underline">Đơn đặt:</p>
             <span className="font-semibold">
